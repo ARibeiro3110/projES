@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain;
 
 import jakarta.persistence.*;
+import org.apache.tools.ant.taskdefs.Local;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
@@ -189,6 +190,12 @@ public class Activity {
             }
         }
     }
+
+    public boolean hasEnded() {
+        LocalDateTime currentTime = LocalDateTime.now();
+        return currentTime.isAfter(this.endingDate);
+    }
+
 
     public LocalDateTime getCreationDate() {
         return creationDate;

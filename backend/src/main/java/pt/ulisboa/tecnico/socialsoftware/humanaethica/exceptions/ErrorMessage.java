@@ -47,7 +47,13 @@ public enum ErrorMessage {
     ENROLMENT_MOTIVATION_INVALID("Enrolment motivation is not valid"),
     MOTIVATION_HAS_LESS_THAN_TEN_CHARACTERS("Enrolment motivation has less than ten characters"),
     VOLUNTEER_ALREADY_ENROLLED_IN_ACTIVITY("Volunteer: %s, is already enrolled in activity: %s"),
-    ENROLMENT_LATE_FOR_DEADLINE("Enrolment is late for deadline of activity: %s");
+    ENROLMENT_LATE_FOR_DEADLINE("Enrolment is late for deadline of activity: %s"),
+
+     // Assessment
+     ASSESSMENT_REVIEW_TOO_SHORT("Review must have at least 10 characters, while it only has %d"),
+     ASSESSMENT_ALREADY_MADE_BY_VOLUNTEER("Institution has already been assessed by you before"),
+     ASSESSMENT_TO_UNFINISHED_ACTIVITIES_INSTITUTION("Institution must have at least one finished activity");
+ 
 
     public final String label;
 

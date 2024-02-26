@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
+
+import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.*;
 
 import java.time.LocalDateTime;
 
@@ -42,6 +46,8 @@ public class Assessment {
 
     // Getters and Setters for Assessment Class
 
+    public Integer getId() { return this.id; }
+
     public String getReview() { return this.review; }
 
     public void setReview(String review) {
@@ -74,5 +80,34 @@ public class Assessment {
         volunteer.addAssessments(this);
     }
 
-    //implement invariants and conditions
+    // Implement invariants and conditions
+    private void verifyInvariants(){
+        reviewSizeMinimumTen();
+        volunteerHasNotAssessedInstitution();
+        institutionHasFinishedActivity();
+    }
+
+    // Review has at least 10 chars
+    private void reviewSizeMinimumTen(){
+        if (this.review.length() <10) {
+            throw new HEException(ASSESSMENT_REVIEW_TOO_SHORT,this.review.length());
+        }
+    }
+
+    // Volunteer cannot assess the same institution twice
+    private void volunteerHasNotAssessedInstitution() {
+        if (this.volunteer.getAssessments().stream().anyMatch(
+                assessment -> assessment.
+                        getInstitution().getId().equals(this.institution.getId()))) {
+            throw new HEException(ASSESSMENT_ALREADY_MADE_BY_VOLUNTEER);
+        }
+    }
+
+    // Institutions without finished activities cannot be assessed
+    private void institutionHasFinishedActivity(){
+        if (this.institution.getActivities().isEmpty() ||
+                this.institution.getActivities().stream().noneMatch(Activity::hasEnded)) {
+            throw new HEException(ASSESSMENT_TO_UNFINISHED_ACTIVITIES_INSTITUTION);
+        }
+    }
 }
