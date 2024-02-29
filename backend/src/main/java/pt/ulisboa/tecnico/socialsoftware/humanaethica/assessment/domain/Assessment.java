@@ -37,10 +37,10 @@ public class Assessment {
         //empty constructor
     }
 
-    // public Assessment(Institution institution, Volunteer volunteer, AssessmentDto assessmentDto) {
+    // public Assessment(Institution institution, Volunteer volunteer, AssessmentDto.java assessmentDto) {
         //TO DO
 
-    //public void update(AssessmentDto assessmentDto, Institution institution,  Volunteer volunteer)
+    //public void update(AssessmentDto.java assessmentDto, Institution institution,  Volunteer volunteer)
         //TO DO
 
 
