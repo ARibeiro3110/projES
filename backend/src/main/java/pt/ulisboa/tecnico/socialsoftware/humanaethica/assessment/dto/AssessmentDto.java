@@ -29,7 +29,7 @@ public class AssessmentDto{
         //setInstitution(assessment.getInstitution());
 
         if (deepCopyInstitution && (assessment.getInstitution() != null)) {
-            setInstitution(new InstitutionDto(assessment.getInstitution(), false, false));
+            setInstitution(new InstitutionDto(assessment.getInstitution(), false, false, false));
         }
         if (deepCopyVolunteer && (assessment.getVolunteer() != null)) {
             setVolunteer(new UserDto(assessment.getVolunteer()));

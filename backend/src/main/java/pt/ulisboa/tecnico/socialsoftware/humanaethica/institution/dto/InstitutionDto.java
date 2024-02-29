@@ -1,6 +1,8 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.dto;
 
+import org.checkerframework.checker.units.qual.A;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.dto.ThemeDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
@@ -26,6 +28,8 @@ public class InstitutionDto {
 
     private List<ActivityDto> activityDto = new ArrayList<>();
 
+    private List<AssessmentDto> assessmentDtos = new ArrayList<>();
+
     public InstitutionDto(){
     }
 
@@ -38,7 +42,7 @@ public class InstitutionDto {
         setCreationDate(DateHandler.toISOString(institution.getCreationDate()));
     }
 
-    public InstitutionDto(Institution institution, boolean deepCopyThemes, boolean deepCopyActivities){
+    public InstitutionDto(Institution institution, boolean deepCopyThemes, boolean deepCopyActivities, boolean deepCopyAssessments){
         setId(institution.getId());
         setEmail(institution.getEmail());
         setName(institution.getName());
@@ -53,6 +57,11 @@ public class InstitutionDto {
         if (deepCopyActivities) {
             this.activityDto = institution.getActivities().stream()
                     .map(activity-> new ActivityDto(activity,false))
+                    .toList();
+        }
+        if (deepCopyAssessments) {
+            this.assessmentDtos = institution.getAssessments().stream()
+                    .map(assessment-> new AssessmentDto(assessment, false, false))
                     .toList();
         }
     }
@@ -125,5 +134,13 @@ public class InstitutionDto {
 
     public void setActivities(List<ActivityDto> activityDto) {
         this.activityDto = activityDto;
+    }
+
+    public List<AssessmentDto>getAssessmentDtos() {
+        return assessmentDtos;
+    }
+
+    public void setAssessmentDtos(List<AssessmentDto> assessmentDtos) {
+        this.assessmentDtos = assessmentDtos;
     }
 }
