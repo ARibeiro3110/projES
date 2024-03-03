@@ -5,6 +5,7 @@ import org.apache.tools.ant.taskdefs.Local;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain.Participation;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrolment.domain.Enrolment;
@@ -43,6 +44,9 @@ public class Activity {
 
     @OneToMany(mappedBy = "activity", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Enrolment> enrolments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Participation> participations = new ArrayList<>();
 
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
@@ -250,6 +254,14 @@ public class Activity {
 
     public Institution getInstitution() {
         return institution;
+    }
+
+    public List<Participation> getParticipations() {
+        return participations;
+    }
+
+    public void addParticipation(Participation participation) {
+        participations.add(participation);
     }
 
     private void verifyInvariants() {
