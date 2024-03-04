@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.dto.InstitutionDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrolment.dto.EnrolmentDto;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.dto.ThemeDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
@@ -22,6 +23,7 @@ public class ActivityDto {
     private List<ThemeDto> themes;
     private InstitutionDto institution;
     private List<EnrolmentDto> enrolments;
+    private List<ParticipationDto> participations;
 
     public ActivityDto(){
     }
@@ -41,6 +43,10 @@ public class ActivityDto {
                 .map(enrolment->new EnrolmentDto(enrolment, false, false))
                 .toList();
 
+
+        this.participations = activity.getParticipations().stream()
+                .map(participation->new ParticipationDto(participation, false, false)) //TODO: check if deep copy is needed
+                .toList();
 
         setState(activity.getState().name());
         setCreationDate(DateHandler.toISOString(activity.getCreationDate()));
@@ -156,6 +162,14 @@ public class ActivityDto {
     }
 
 
+    public void setParticipations(List<ParticipationDto> participations) {
+        this.participations = participations;
+    }
+
+    public List<ParticipationDto> getParticipations() {
+        return participations;
+    }
+
     @Override
     public String toString() {
         return "ActivityDto{" +
@@ -172,6 +186,7 @@ public class ActivityDto {
                 ", themes=" + themes +
                 ", institution=" + institution +
                 ", enrolments=" + enrolments +
+                ", participations=" + participations +
                 '}';
     }
 }
