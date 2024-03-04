@@ -2,10 +2,12 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain;
 
 import jakarta.persistence.*;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 
 import java.time.LocalDateTime;
 
+import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.*;
 
 @Entity
 @Table(name = "participations")
@@ -67,6 +69,19 @@ public class Participation {
     public void setVolunteer(Volunteer volunteer) {
         this.volunteer = volunteer;
         volunteer.addParticipation(this);
+    }
+
+    private void verifyInvariants() {
+        hasOneVolunteerPerActivity();
+    }
+
+    private void hasOneVolunteerPerActivity() {
+        long volunteer_count = activity.getParticipations().stream()
+                                .filter(p -> p.getVolunteer().equals(volunteer))
+                                .count();
+        if (volunteer_count > 1) { 
+            throw new HEException(VOLUNTEER_ALREADY_PARTICIPATING_IN_ACTIVITY, volunteer.getName(), activity.getName());
+        }
     }
 
 }

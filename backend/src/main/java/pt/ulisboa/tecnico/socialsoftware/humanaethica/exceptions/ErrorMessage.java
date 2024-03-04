@@ -53,7 +53,9 @@ public enum ErrorMessage {
      ASSESSMENT_REVIEW_TOO_SHORT("Review must have at least 10 characters, while it only has %d"),
      ASSESSMENT_ALREADY_MADE_BY_VOLUNTEER("Institution has already been assessed by you before"),
      ASSESSMENT_TO_UNFINISHED_ACTIVITIES_INSTITUTION("Institution must have at least one finished activity");
- 
+
+    // Participation
+    VOLUNTEER_ALREADY_PARTICIPATING_IN_ACTIVITY("Volunteer: %s, is already participating in activity with name %s");
 
     public final String label;
 
