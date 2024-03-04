@@ -6,6 +6,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrolment.domain.Enrolment;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,6 +39,9 @@ public class Activity {
 
     @ManyToOne
     private Institution institution;
+
+    @OneToMany(mappedBy = "activity", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Enrolment> enrolments = new ArrayList<>();
 
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
@@ -217,6 +221,20 @@ public class Activity {
     public void addTheme (Theme theme) {
         this.themes.add(theme);
         theme.addActivity(this);
+    }
+
+    public List<Enrolment> getEnrolments() {
+        return enrolments;
+    }
+
+    public void addEnrolment(Enrolment enrolment) {
+        if (this.enrolments.contains(enrolment)) {
+            throw new HEException(ALREADY_ENROLLED_IN_ACTIVITY, enrolment.getVolunteer().getUsername());
+        }
+        if (this.enrolments.size() >= this.participantsNumberLimit) {
+            throw new HEException(ACTIVITY_FULL);
+        }
+        this.enrolments.add(enrolment);
     }
 
     public void removeTheme(Theme theme) {
