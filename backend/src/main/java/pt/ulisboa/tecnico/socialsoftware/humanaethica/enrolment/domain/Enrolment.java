@@ -31,7 +31,7 @@ public class Enrolment {
     public Enrolment() {
     }
 
-    public Enrolment(EnrolmentDto enrolmentDto, Activity activity, Volunteer volunteer) {
+    public Enrolment(Activity activity, Volunteer volunteer, EnrolmentDto enrolmentDto) {
         setActivity(activity);
         setVolunteer(volunteer);
         setMotivation(enrolmentDto.getMotivation());

@@ -214,6 +214,15 @@ class SpockTest extends Specification {
         activityDto
     }
 
+    // enrolment
+
+    public static final String ENROLMENT_MOTIVATION_1 = "I want to make a difference!" // 28 characters
+    public static final String ENROLMENT_MOTIVATION_2 = " " // 1 character
+    public static final String ENROLMENT_MOTIVATION_3 = null // 0 characters
+    public static final String ENROLMENT_MOTIVATION_4 = "Give help" // 9 characters, under threshold
+    public static final String ENROLMENT_MOTIVATION_5 = "Offer help" // 10 characters, threshold limit
+
+
     // clean database
 
     def deleteAll() {
