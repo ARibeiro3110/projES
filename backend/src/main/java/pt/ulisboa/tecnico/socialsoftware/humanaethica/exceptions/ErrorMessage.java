@@ -41,7 +41,10 @@ public enum ErrorMessage {
     ACTIVITY_ALREADY_SUSPENDED("Activity is already suspended with name %s"),
     ACTIVITY_ALREADY_REPORTED("Activity is already reported with name %s"),
     ALREADY_ENROLLED_IN_ACTIVITY("User is already enrolled in activity with name %s"),
-    ACTIVITY_FULL("Activity is full");
+    ACTIVITY_FULL("Activity is full"),
+
+    // Enrolment
+    MOTIVATION_HAS_LESS_THAN_TEN_CHARACTERS("Enrolment motivation has less than ten characters");
 
     public final String label;
 

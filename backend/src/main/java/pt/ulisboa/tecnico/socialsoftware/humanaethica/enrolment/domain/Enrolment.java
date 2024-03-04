@@ -79,7 +79,23 @@ public class Enrolment {
     }
 
     public void verifyInvariants() {
-        //
+        motivationHasAtLeastTenCharacters();
+        onlyOneEnrolmentPerActivityPerVolunteer(); // TODO: Implement invariant
+        cannotEnrolAfterDeadline(); // TODO: Implement invariant
+    }
+
+    private void motivationHasAtLeastTenCharacters() {
+        if (motivation.length() < 10) {
+            throw new HEException(MOTIVATION_HAS_LESS_THAN_TEN_CHARACTERS);
+        }
+    }
+
+    private void onlyOneEnrolmentPerActivityPerVolunteer() {
+        // TODO: Implement invariant
+    }
+
+    private void cannotEnrolAfterDeadline() {
+        // TODO: Implement invariant
     }
 
 
