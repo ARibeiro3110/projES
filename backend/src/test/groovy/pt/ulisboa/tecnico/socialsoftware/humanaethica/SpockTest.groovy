@@ -78,6 +78,11 @@ class SpockTest extends Specification {
     @Autowired
     InstitutionRepository institutionRepository
 
+    // Assessment
+
+    public static final String ASSESSMENT_REVIEW_1 = "Very nice place want to go back"
+    public static final String ASSESSMENT_REVIEW_2 = "I am going to return for sure!"
+
     // login and demo
 
     public static final String ROLE_VOLUNTEER = "ROLE_VOLUNTEER"

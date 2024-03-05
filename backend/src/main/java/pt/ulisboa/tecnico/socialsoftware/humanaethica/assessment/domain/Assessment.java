@@ -73,7 +73,7 @@ public class Assessment {
 
     public void setInstitution(Institution institution) {
         this.institution = institution;
-        institution.addAssessments(this);
+        institution.addAssessment(this);
     }
 
     public Volunteer getVolunteer() {
@@ -82,7 +82,7 @@ public class Assessment {
 
     public void setVolunteer(Volunteer volunteer) {
         this.volunteer = volunteer;
-        volunteer.addAssessments(this);
+        volunteer.addAssessment(this);
     }
 
     // Implement invariants and conditions
@@ -110,7 +110,7 @@ public class Assessment {
 
     // Institutions without finished activities cannot be assessed
     private void institutionHasFinishedActivity(){
-        if (this.institution.getActivities().isEmpty() ||
+        if (this.institution.getActivities() == null || this.institution.getActivities().isEmpty() ||
                 this.institution.getActivities().stream().noneMatch(Activity::hasEnded)) {
             throw new HEException(ASSESSMENT_TO_UNFINISHED_ACTIVITIES_INSTITUTION);
         }

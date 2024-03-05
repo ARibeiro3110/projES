@@ -179,7 +179,7 @@ public class Institution {
 
     public List<Assessment> getAssessments() { return assessments; }
 
-    public void addAssessments(Assessment assessment) { this.assessments.add(assessment); }
+    public void addAssessment(Assessment assessment) { this.assessments.add(assessment); }
 
 
     public String generateConfirmationToken() {
