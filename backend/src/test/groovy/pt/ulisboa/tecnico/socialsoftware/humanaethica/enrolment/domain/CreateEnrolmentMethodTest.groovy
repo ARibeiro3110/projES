@@ -45,6 +45,28 @@ class CreateEnrolmentMethodTest extends SpockTest {
         1 * volunteer.addEnrolment(_)
     }
 
+    @Unroll
+    def "create enrolment and violate motivation has at least 10 characters : motivation=#motivation"() {
+        given: "enrolment context"
+        otherEnrolment.getMotivation() >> ENROLMENT_MOTIVATION_5
+        activity.getEnrolments() >> [otherEnrolment]
+        volunteer.getEnrolments() >> []
+        and: "an enrolment dto"
+        enrolmentDto = new EnrolmentDto()
+        enrolmentDto.motivation = motivation
+
+        when: "create enrolment"
+        new Enrolment(activity, volunteer, enrolmentDto)
+
+        then: "exception thrown"
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.MOTIVATION_HAS_LESS_THAN_TEN_CHARACTERS
+
+        where:
+        motivation << [ENROLMENT_MOTIVATION_2, ENROLMENT_MOTIVATION_3, ENROLMENT_MOTIVATION_4]
+
+    }
+
     @TestConfiguration
     static class LocalBeanConfiguration extends BeanConfiguration {}
 }
