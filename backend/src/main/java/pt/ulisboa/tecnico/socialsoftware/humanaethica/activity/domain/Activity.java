@@ -191,12 +191,6 @@ public class Activity {
         }
     }
 
-    public boolean hasEnded() {
-        LocalDateTime currentTime = LocalDateTime.now();
-        return currentTime.isAfter(this.endingDate);
-    }
-
-
     public LocalDateTime getCreationDate() {
         return creationDate;
     }

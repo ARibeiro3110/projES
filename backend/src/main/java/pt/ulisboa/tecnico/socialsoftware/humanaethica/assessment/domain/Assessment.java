@@ -111,7 +111,7 @@ public class Assessment {
     // Institutions without finished activities cannot be assessed
     private void institutionHasFinishedActivity(){
         if (this.institution.getActivities() == null || this.institution.getActivities().isEmpty() ||
-                this.institution.getActivities().stream().noneMatch(Activity::hasEnded)) {
+                this.institution.getActivities().stream().noneMatch(activity -> activity.getEndingDate().isBefore(this.reviewDate))) {
             throw new HEException(ASSESSMENT_TO_UNFINISHED_ACTIVITIES_INSTITUTION);
         }
     }

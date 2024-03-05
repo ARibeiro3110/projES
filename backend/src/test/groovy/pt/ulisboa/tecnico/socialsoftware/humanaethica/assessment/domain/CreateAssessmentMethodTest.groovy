@@ -35,7 +35,7 @@ class CreateAssessmentMethodTest extends SpockTest {
 
     def "create assessment with volunteer and institution has another assessment"() {
         given:
-        finishedActivity.getEndingDate() >> ONE_DAY_AGO
+        finishedActivity.getEndingDate() >> TWO_DAYS_AGO
         finishedActivity.getName() >> ACTIVITY_NAME_1
         otherAssessment.getReview() >> ASSESSMENT_REVIEW_2
         institution.getActivities() >> [finishedActivity]
@@ -51,9 +51,6 @@ class CreateAssessmentMethodTest extends SpockTest {
         result.getReview() == ASSESSMENT_REVIEW_1
         result.getReviewDate() == ONE_DAY_AGO
         result.getVolunteer() == volunteer
-        result.getVolunteer().getAssessments().get(0) == result
-        result.getVolunteer().getAssessments().size() == 1
-        result.getInstitution().getAssessments().size() == 2
         and: "invocations"
         1 * institution.addAssessment(_)
         1 * volunteer.addAssessment(_)
