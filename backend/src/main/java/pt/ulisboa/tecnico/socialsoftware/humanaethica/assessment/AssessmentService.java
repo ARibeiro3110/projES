@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.domain.Assessment;
-import  pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.repository.AssessmentRepository
+import  pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.repository.AssessmentRepository;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.repository.InstitutionRepository;
