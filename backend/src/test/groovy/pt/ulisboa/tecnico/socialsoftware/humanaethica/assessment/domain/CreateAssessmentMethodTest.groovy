@@ -56,6 +56,31 @@ class CreateAssessmentMethodTest extends SpockTest {
         1 * volunteer.addAssessment(_)
     }
 
+    def "create assessment and violate invariant review must have at least 10 characters"() {
+        given:
+        finishedActivity.getEndingDate() >> TWO_DAYS_AGO
+        finishedActivity.getName() >> ACTIVITY_NAME_1
+        institution.getActivities() >> [finishedActivity]
+        and:
+        assessmentDto.setReview(name)
+        assessmentDto.setReviewDate(DateHandler.toISOString(ONE_DAY_AGO))
+
+        when:
+        def result = new Assessment(institution, volunteer, assessmentDto)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == errorMessage
+
+        where:
+        name            || errorMessage
+        null            || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
+        " "             || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
+        "123456789"     || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
+        "o"             || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
+        ""              || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
+    }
+
     @TestConfiguration
     static class LocalBeanConfiguration extends BeanConfiguration {}
 }

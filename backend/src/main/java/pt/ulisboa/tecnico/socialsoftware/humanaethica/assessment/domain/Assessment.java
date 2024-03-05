@@ -94,6 +94,9 @@ public class Assessment {
 
     // Review has at least 10 chars
     private void reviewSizeMinimumTen(){
+        if (this.review == null || this.review.isEmpty()) {
+            throw new HEException(ASSESSMENT_REVIEW_TOO_SHORT, 0);
+        }
         if (this.review.length() <10) {
             throw new HEException(ASSESSMENT_REVIEW_TOO_SHORT,this.review.length());
         }
