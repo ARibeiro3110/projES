@@ -7,8 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrolment.domain.Enrolment;
 
-import java.util.List;
-import java.util.Set;
-
 @Repository
 @Transactional
+public interface EnrolmentRepository extends JpaRepository<Enrolment, Integer> {
+}
