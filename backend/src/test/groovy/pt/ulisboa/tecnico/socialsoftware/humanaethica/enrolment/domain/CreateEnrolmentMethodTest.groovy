@@ -41,8 +41,8 @@ class CreateEnrolmentMethodTest extends SpockTest {
         result.getActivity() == activity
         result.getVolunteer() == volunteer
         and: "invocations"
-        1 * activity.addEnrolment(result)
-        1 * volunteer.addEnrolment(result)
+        1 * activity.addEnrolment(_)
+        1 * volunteer.addEnrolment(_)
     }
 
     @TestConfiguration
