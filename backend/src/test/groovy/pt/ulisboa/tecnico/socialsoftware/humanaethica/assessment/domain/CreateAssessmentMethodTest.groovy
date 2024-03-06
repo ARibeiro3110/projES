@@ -14,7 +14,10 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler
 import spock.lang.Unroll
 
+import java.awt.HeadlessException
 import java.time.LocalDateTime
+
+import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.ASSESSMENT_TO_UNFINISHED_ACTIVITIES_INSTITUTION
 
 @DataJpaTest
 class CreateAssessmentMethodTest extends SpockTest {
@@ -79,6 +82,35 @@ class CreateAssessmentMethodTest extends SpockTest {
         "123456789"     || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
         "o"             || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
         ""              || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
+    }
+
+
+    def "create assessment and violate invariant an institution can only be assessed when it has at least one concluded activity"(){
+        given:
+        finishedActivity.getEndingDate() >> IN_THREE_DAYS
+        finishedActivity.getName() >> ACTIVITY_NAME_1
+        otherAssessment.getReview() >> ASSESSMENT_REVIEW_2
+        institution.getActivities() >> [finishedActivity]
+        institution.getAssessments() >> [otherAssessment]
+        volunteer.getAssessments() >> []
+        and:
+        assessmentDto.setReview(ASSESSMENT_REVIEW_1)
+        assessmentDto.setReviewDate(date instanceof LocalDateTime ? DateHandler.toISOString(date) : date as String)
+
+        when :
+        def result = new Assessment(institution, volunteer, assessmentDto)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == errorMessage
+
+        where:
+        date            || errorMessage
+        TWO_DAYS_AGO    || ErrorMessage.ASSESSMENT_TO_UNFINISHED_ACTIVITIES_INSTITUTION
+        ONE_DAY_AGO     || ErrorMessage.ASSESSMENT_TO_UNFINISHED_ACTIVITIES_INSTITUTION
+        NOW             || ErrorMessage.ASSESSMENT_TO_UNFINISHED_ACTIVITIES_INSTITUTION
+        IN_ONE_DAY      || ErrorMessage.ASSESSMENT_TO_UNFINISHED_ACTIVITIES_INSTITUTION
+        IN_TWO_DAYS     || ErrorMessage.ASSESSMENT_TO_UNFINISHED_ACTIVITIES_INSTITUTION
     }
 
     @TestConfiguration
