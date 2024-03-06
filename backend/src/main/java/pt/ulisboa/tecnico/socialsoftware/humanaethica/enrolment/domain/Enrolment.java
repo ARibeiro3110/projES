@@ -91,7 +91,11 @@ public class Enrolment {
     }
 
     private void onlyOneEnrolmentPerActivityPerVolunteer() {
-        // TODO: Implement invariant
+        if (this.activity.getEnrolments().stream()
+                .filter(e -> e.getVolunteer().equals(volunteer))
+                .count() > 1) {
+            throw new HEException(VOLUNTEER_ALREADY_ENROLLED_IN_ACTIVITY, volunteer.getName(), activity.getName());
+        }
     }
 
     private void cannotEnrolAfterDeadline() {

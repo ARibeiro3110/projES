@@ -44,7 +44,8 @@ public enum ErrorMessage {
     ACTIVITY_FULL("Activity is full"),
 
     // Enrolment
-    MOTIVATION_HAS_LESS_THAN_TEN_CHARACTERS("Enrolment motivation has less than ten characters");
+    MOTIVATION_HAS_LESS_THAN_TEN_CHARACTERS("Enrolment motivation has less than ten characters"),
+    VOLUNTEER_ALREADY_ENROLLED_IN_ACTIVITY("Volunteer: %s, is already enrolled in activity: %s");
 
     public final String label;
 
