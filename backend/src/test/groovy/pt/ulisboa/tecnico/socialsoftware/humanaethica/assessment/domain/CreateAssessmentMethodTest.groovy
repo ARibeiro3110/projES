@@ -84,6 +84,28 @@ class CreateAssessmentMethodTest extends SpockTest {
         ""              || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
     }
 
+    def "create assessment and violate invariant volunteer can only assess an institution once"(){
+        given:
+        finishedActivity.getEndingDate() >> TWO_DAYS_AGO
+        finishedActivity.getName() >> ACTIVITY_NAME_1
+        institution.getActivities() >> [finishedActivity]
+        institution.getName() >> INSTITUTION_1_NAME
+        institution.getId() >> 1
+        volunteer.getAssessments() >> [otherAssessment]
+        otherAssessment.getInstitution() >> institution
+
+        and:
+        assessmentDto.setReview(ASSESSMENT_REVIEW_1)
+        assessmentDto.setReviewDate(DateHandler.toISOString(ONE_DAY_AGO))
+
+        when:
+        def result = new Assessment(institution, volunteer, assessmentDto)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.ASSESSMENT_ALREADY_MADE_BY_VOLUNTEER
+
+    }
 
     def "create assessment and violate invariant an institution can only be assessed when it has at least one concluded activity"(){
         given:
