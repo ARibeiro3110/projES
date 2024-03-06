@@ -84,6 +84,8 @@ class SpockTest extends Specification {
     public static final String USER_1_TOKEN = "1a2b3c"
     public static final String USER_2_TOKEN = "c3b2a1"
 
+    public static final String USER_1_ID = 1
+
     @Autowired
     AuthUserService authUserService
 

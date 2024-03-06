@@ -30,7 +30,9 @@ class CreateEnrolmentMethodTest extends SpockTest {
     def "create enrolment"() {
         given: "enrolment context"
         otherEnrolment.getMotivation() >> ENROLMENT_MOTIVATION_5
+        otherEnrolment.getVolunteer() >> volunteer
         activity.getEnrolments() >> [otherEnrolment]
+        volunteer.getId() >> USER_1_ID
         volunteer.getEnrolments() >> []
 
         when: "create enrolment"
@@ -49,7 +51,9 @@ class CreateEnrolmentMethodTest extends SpockTest {
     def "create enrolment and violate motivation has at least 10 characters : motivation=#motivation"() {
         given: "enrolment context"
         otherEnrolment.getMotivation() >> ENROLMENT_MOTIVATION_5
+        otherEnrolment.getVolunteer() >> volunteer
         activity.getEnrolments() >> [otherEnrolment]
+        volunteer.getId() >> USER_1_ID
         volunteer.getEnrolments() >> []
         and: "an enrolment dto"
         enrolmentDto = new EnrolmentDto()

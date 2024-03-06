@@ -91,8 +91,8 @@ public class Enrolment {
     }
 
     private void onlyOneEnrolmentPerActivityPerVolunteer() {
-        if (this.activity.getEnrolments().stream()
-                .filter(e -> e.getVolunteer().equals(volunteer))
+        if (activity.getEnrolments().stream()
+                .filter(e -> e.getVolunteer().getId().equals(volunteer.getId()))
                 .count() > 1) {
             throw new HEException(VOLUNTEER_ALREADY_ENROLLED_IN_ACTIVITY, volunteer.getName(), activity.getName());
         }
