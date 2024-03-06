@@ -77,7 +77,7 @@ public class Participation {
 
     private void hasOneVolunteerPerActivity() {
         long volunteer_count = activity.getParticipations().stream()
-                                .filter(p -> p.getVolunteer().equals(volunteer))
+                                .filter(p -> p.getVolunteer().getId().equals(volunteer.getId()))
                                 .count();
         if (volunteer_count > 1) { 
             throw new HEException(VOLUNTEER_ALREADY_PARTICIPATING_IN_ACTIVITY, volunteer.getName(), activity.getName());
