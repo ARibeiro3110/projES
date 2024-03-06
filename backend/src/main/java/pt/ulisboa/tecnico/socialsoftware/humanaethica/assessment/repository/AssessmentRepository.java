@@ -12,8 +12,8 @@ import java.util.List;
 @Repository
 @Transactional
 public interface AssessmentRepository extends JpaRepository<Assessment, Integer> {
-    @Query("SELECT a FROM Activity a WHERE a.institution.id = :institutionId")
-    List<Assessment> getActivitiesByInstitutionId(Integer institutionId);
+    @Query("SELECT a FROM Assessment a WHERE a.institution.id = :institutionId")
+    List<Assessment> getAssessmentByInstitutionId(Integer institutionId);
 
     @Modifying
     @Query(value = "DELETE FROM activity_themes", nativeQuery = true)
