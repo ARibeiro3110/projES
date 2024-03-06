@@ -55,6 +55,7 @@ public enum ErrorMessage {
      ASSESSMENT_TO_UNFINISHED_ACTIVITIES_INSTITUTION("Institution must have at least one finished activity");
 
     // Participation
+    ACTIVITY_PARTICIPANTS_LIMIT_EXCEEDED("Activity: %s, has reached the limit of participants"),
     VOLUNTEER_ALREADY_PARTICIPATING_IN_ACTIVITY("Volunteer: %s, is already participating in activity with name %s");
 
     public final String label;

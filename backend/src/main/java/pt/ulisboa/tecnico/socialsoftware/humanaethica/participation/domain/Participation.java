@@ -79,7 +79,14 @@ public class Participation {
     }
 
     private void verifyInvariants() {
+        participantsLimitIsNotExceeded();
         hasOneVolunteerPerActivity();
+    }
+
+    private void participantsLimitIsNotExceeded() {
+        if (activity.getParticipations().size() > activity.getParticipantsNumberLimit()) {
+            throw new HEException(ACTIVITY_PARTICIPANTS_LIMIT_EXCEEDED, activity.getName());
+        }
     }
 
     private void hasOneVolunteerPerActivity() {
