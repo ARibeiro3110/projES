@@ -16,6 +16,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.repository.UserReposi
 import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.*;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -28,6 +29,14 @@ public class AssessmentService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public List<AssessmentDto> getAssessments() {
+        return assessmentRepository.findAll().stream()
+                .map(assessment -> new AssessmentDto(assessment, true, true))
+                .sorted(Comparator.comparingInt(AssessmentDto::getId))
+                .toList();
+    }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public AssessmentDto createAssessment(Integer userId, Integer institutionId, AssessmentDto assessmentDto) {
