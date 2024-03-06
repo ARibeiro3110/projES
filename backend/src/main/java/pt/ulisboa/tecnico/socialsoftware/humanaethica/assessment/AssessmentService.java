@@ -40,10 +40,14 @@ public class AssessmentService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public AssessmentDto createAssessment(Integer userId, Integer institutionId, AssessmentDto assessmentDto) {
+        if ( userId == null ) throw new HEException(USER_NOT_FOUND);
+        if ( institutionId == null ) throw new HEException(INSTITUTION_NOT_FOUND);
+
         Institution institution = (Institution) institutionRepository.findById(institutionId).orElseThrow(
                 () -> new HEException(INSTITUTION_NOT_FOUND, institutionId));
         Volunteer volunteer = (Volunteer) userRepository.findById(userId).orElseThrow(
                 () -> new HEException(USER_NOT_FOUND, userId));
+
         Assessment assessment = new Assessment(institution, volunteer, assessmentDto);
 
         assessmentRepository.save(assessment);
