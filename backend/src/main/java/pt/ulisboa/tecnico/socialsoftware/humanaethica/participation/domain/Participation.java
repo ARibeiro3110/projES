@@ -27,7 +27,14 @@ public class Participation {
     public Participation() {
     }
 
-    // TODO: add constructor
+    public Participation(Activity activity, Volunteer volunteer, ParticipationDto participationDto) {
+        setActivity(activity);
+        setVolunteer(volunteer);
+        setRating(participationDto.getRating());
+        setAcceptanceDate(DateHandler.now());
+
+        verifyInvariants();
+    }
 
     public Integer getId() {
         return id;
