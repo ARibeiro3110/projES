@@ -56,7 +56,8 @@ public enum ErrorMessage {
 
     // Participation
     ACTIVITY_PARTICIPANTS_LIMIT_EXCEEDED("Activity: %s, has reached the limit of participants"),
-    VOLUNTEER_ALREADY_PARTICIPATING_IN_ACTIVITY("Volunteer: %s, is already participating in activity with name %s");
+    VOLUNTEER_ALREADY_PARTICIPATING_IN_ACTIVITY("Volunteer: %s, is already participating in activity with name %s"),
+    VOLUNTEER_ADDED_BEFORE_APPLICATION_DEADLINE("Volunteer: %s, added before the application deadline for activity with name %s");
 
     public final String label;
 

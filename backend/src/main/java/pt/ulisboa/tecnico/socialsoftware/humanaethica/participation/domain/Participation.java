@@ -81,6 +81,7 @@ public class Participation {
     private void verifyInvariants() {
         participantsLimitIsNotExceeded();
         hasOneVolunteerPerActivity();
+        volunteerAddedAfterDeadline();
     }
 
     private void participantsLimitIsNotExceeded() {
@@ -95,6 +96,12 @@ public class Participation {
                                 .count();
         if (volunteer_count > 1) { 
             throw new HEException(VOLUNTEER_ALREADY_PARTICIPATING_IN_ACTIVITY, volunteer.getName(), activity.getName());
+        }
+    }
+
+    private void volunteerAddedAfterDeadline() {
+        if (!acceptanceDate.isAfter(activity.getApplicationDeadline())) {
+            throw new HEException(VOLUNTEER_ADDED_BEFORE_APPLICATION_DEADLINE, volunteer.getName(), activity.getName());
         }
     }
 
