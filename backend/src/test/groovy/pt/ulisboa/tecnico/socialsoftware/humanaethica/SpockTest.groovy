@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.crypto.password.PasswordEncoder
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.AssessmentService
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentDto
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.repository.AssessmentRepository
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.AuthUserService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.dto.AuthDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.dto.AuthPasswordDto
@@ -82,6 +85,24 @@ class SpockTest extends Specification {
 
     public static final String ASSESSMENT_REVIEW_1 = "Very nice place want to go back"
     public static final String ASSESSMENT_REVIEW_2 = "I am going to return for sure!"
+    public static final String WHITE_SPACE = " "
+    public static final String NINE_CHARS = "123456789"
+    public static final String ONE_CHAR = "o"
+    public static final String EMPTY = ""
+
+    @Autowired
+    AssessmentRepository assessmentRepository
+
+    @Autowired
+    AssessmentService assessmentService
+
+    protected AssessmentDto createAssessmentDto(review, reviewDate) {
+        def assessmentDto = new AssessmentDto()
+        assessmentDto.setReview(review)
+        assessmentDto.setReviewDate(reviewDate)
+
+        assessmentDto
+    }
 
     // login and demo
 
@@ -102,8 +123,7 @@ class SpockTest extends Specification {
     public static final String USER_2_PASSWORD = "4321@7877578"
     public static final String USER_1_TOKEN = "1a2b3c"
     public static final String USER_2_TOKEN = "c3b2a1"
-
-    public static final Integer USER_1_ID = 1
+    public static final Integer USER_ID_1 = 1
 
     @Autowired
     AuthUserService authUserService

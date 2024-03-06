@@ -78,28 +78,29 @@ class CreateAssessmentMethodTest extends SpockTest {
         where:
         name            || errorMessage
         null            || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
-        " "             || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
-        "123456789"     || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
-        "o"             || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
-        ""              || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
+        WHITE_SPACE     || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
+        NINE_CHARS      || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
+        ONE_CHAR        || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
+        EMPTY              || ErrorMessage.ASSESSMENT_REVIEW_TOO_SHORT
     }
 
     def "create assessment and violate invariant volunteer can only assess an institution once"(){
         given:
+        def institution_2 = new Institution()
         finishedActivity.getEndingDate() >> TWO_DAYS_AGO
         finishedActivity.getName() >> ACTIVITY_NAME_1
-        institution.getActivities() >> [finishedActivity]
-        institution.getName() >> INSTITUTION_1_NAME
-        institution.getId() >> 1
+        institution_2.addActivity(finishedActivity)
+        institution_2.setName(INSTITUTION_1_NAME)
+        institution_2.setId(USER_ID_1)
+        otherAssessment.getInstitution() >> institution_2
         volunteer.getAssessments() >> [otherAssessment]
-        otherAssessment.getInstitution() >> institution
 
         and:
         assessmentDto.setReview(ASSESSMENT_REVIEW_1)
         assessmentDto.setReviewDate(DateHandler.toISOString(ONE_DAY_AGO))
 
         when:
-        def result = new Assessment(institution, volunteer, assessmentDto)
+        def result = new Assessment(institution_2, volunteer, assessmentDto)
 
         then:
         def error = thrown(HEException)

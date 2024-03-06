@@ -105,7 +105,7 @@ public class Assessment {
     // Volunteer cannot assess the same institution twice
     private void volunteerHasNotAssessedInstitution() {
         if (this.volunteer.getAssessments().stream().anyMatch(
-                assessment -> assessment.
+                assessment -> assessment != this && assessment.
                         getInstitution().getId().equals(this.institution.getId()))) {
             throw new HEException(ASSESSMENT_ALREADY_MADE_BY_VOLUNTEER);
         }
