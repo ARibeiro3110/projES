@@ -21,7 +21,11 @@ public class EnrolmentController {
 
     private static final Logger logger = LoggerFactory.getLogger(EnrolmentController.class);
 
-    // TODO: public List<EnrolmentDto> getActivityEnrolments(@PathVariable Integer activityId)
+    @GetMapping("/{activityId}")
+    @PreAuthorize("hasRole('ROLE_MEMBER') and hasPermission(#activityId, 'ACTIVITY.MEMBER')")
+    public List<EnrolmentDto> getActivityEnrolments(@PathVariable Integer activityId) {
+        return enrolmentService.getEnrolmentsByActivity(activityId);
+    }
 
     @PostMapping("/{activityId}")
     @PreAuthorize("(hasRole('ROLE_VOLUNTEER'))")
