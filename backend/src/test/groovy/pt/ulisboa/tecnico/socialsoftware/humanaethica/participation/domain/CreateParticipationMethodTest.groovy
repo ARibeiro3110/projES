@@ -51,7 +51,7 @@ class CreateParticipationMethodTest extends SpockTest{
     }
 
     @Unroll
-    def "create participation and violate invariant total participations <= maxParticipations : participations=#participations"() {
+    def "create participation and violate invariant total participations <= maxParticipations"() {
         given:
         activity.getParticipantsNumberLimit() >> 1
         activity.getParticipations() >> [otherParticipation, Mock(Participation)]
@@ -66,6 +66,25 @@ class CreateParticipationMethodTest extends SpockTest{
         then:
         def error = thrown(HEException)
         error.getErrorMessage() == ErrorMessage.ACTIVITY_PARTICIPANTS_LIMIT_EXCEEDED
+
+    }
+
+    @Unroll
+    def "create participation and violate invariant acceptanceDate after applicationDeadline"() {
+        given:
+        activity.getParticipations() >> [otherParticipation]
+        activity.getParticipantsNumberLimit() >> PARTICIPANTS_NUMBER_LIMIT
+        activity.getApplicationDeadline() >> IN_ONE_DAY
+        volunteer.getId() >> VOLUNTEER_ID_1
+        otherParticipation.getVolunteer() >> otherVolunteer
+        otherParticipation.getVolunteer().getId() >> VOLUNTEER_ID_2
+
+        when:
+        new Participation(activity, volunteer, participationDto)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.VOLUNTEER_ADDED_BEFORE_APPLICATION_DEADLINE
 
     }
 
