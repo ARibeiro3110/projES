@@ -82,7 +82,7 @@ public class Participation {
 
     private void verifyInvariants() {
         participantsLimitIsNotExceeded();
-        hasOneVolunteerPerActivity();
+        volunteerParticipatesOnceInActivity();
         volunteerAddedAfterDeadline();
     }
 
@@ -92,7 +92,7 @@ public class Participation {
         }
     }
 
-    private void hasOneVolunteerPerActivity() {
+    private void volunteerParticipatesOnceInActivity() {
         long volunteer_count = activity.getParticipations().stream()
                                 .filter(p -> p.getVolunteer().getId().equals(volunteer.getId()))
                                 .count();
