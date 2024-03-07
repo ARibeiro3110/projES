@@ -40,6 +40,7 @@ public class AssessmentService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public AssessmentDto createAssessment(Integer userId, Integer institutionId, AssessmentDto assessmentDto) {
+
         if ( userId == null ) throw new HEException(USER_NOT_FOUND);
         if ( institutionId == null ) throw new HEException(INSTITUTION_NOT_FOUND);
 

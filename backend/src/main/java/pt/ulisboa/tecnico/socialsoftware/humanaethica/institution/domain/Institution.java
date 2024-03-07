@@ -47,7 +47,7 @@ public class Institution {
     private List<Activity> activities = new ArrayList<>();
 
     // Relation with Assessment - if assessment id becomes null assessment is deleted fom bd
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "institution", orphanRemoval = true)
+    @OneToMany(mappedBy = "institution", orphanRemoval = true)
     private List<Assessment> assessments = new ArrayList<>();
 
     public Institution() {
