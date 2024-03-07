@@ -105,17 +105,6 @@ class CreateEnrolmentServiceTest extends SpockTest {
         ENROLMENT_MOTIVATION_1 | EXIST      | null        || ErrorMessage.USER_NOT_FOUND
     }
 
-        // withinFiveMinutes: takes two datetime strings and returns true if the difference between them is less than 5 minutes
-        def withinFiveMinutes(String datetime1, String datetime2) {
-            def date1 = DateHandler.toLocalDateTime(datetime1)
-            def date2 = DateHandler.toLocalDateTime(datetime2)
-
-            def duration = Duration.between(date1, date2)
-
-            def minutesDifference = duration.toMinutes()
-            minutesDifference < 5
-        }
-
         // getActivityDto: takes an activityId and returns the corresponding ActivityDto
         def getActivityDto(activityId) {
             if (activityId == EXIST)

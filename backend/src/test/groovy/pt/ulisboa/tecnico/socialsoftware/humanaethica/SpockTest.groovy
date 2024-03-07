@@ -31,6 +31,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.Mailer
 import spock.lang.Specification
 
 import java.time.LocalDateTime
+import java.time.Duration
 
 class SpockTest extends Specification {
     // remote requests
@@ -54,6 +55,16 @@ class SpockTest extends Specification {
     public static final LocalDateTime IN_ONE_DAY = DateHandler.now().plusDays(1)
     public static final LocalDateTime IN_TWO_DAYS = DateHandler.now().plusDays(2)
     public static final LocalDateTime IN_THREE_DAYS = DateHandler.now().plusDays(3)
+
+    public static boolean withinFiveMinutes(String datetime1, String datetime2) {
+        LocalDateTime date1 = DateHandler.toLocalDateTime(datetime1);
+        LocalDateTime date2 = DateHandler.toLocalDateTime(datetime2);
+
+        Duration duration = Duration.between(date1, date2);
+
+        long minutesDifference = duration.toMinutes();
+        return minutesDifference < 5;
+    }
 
     // institution
 
