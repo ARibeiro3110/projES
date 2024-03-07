@@ -13,7 +13,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.domain.AuthUser;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/activities")
+@RequestMapping("/assessments")
 public class AssessmentController {
 
     @Autowired
