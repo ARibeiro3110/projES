@@ -18,6 +18,8 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.ArrayList;
 
 @Service
 public class AssessmentService {
@@ -31,11 +33,15 @@ public class AssessmentService {
     UserRepository userRepository;
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public List<AssessmentDto> getAssessments() {
-        return assessmentRepository.findAll().stream()
-                .map(assessment -> new AssessmentDto(assessment, true, true))
-                .sorted(Comparator.comparingInt(AssessmentDto::getId))
-                .toList();
+    public List<AssessmentDto> getAssessmentsByInstitutionId(Integer institutionId) {
+        if ( institutionId == null ) throw new HEException(INSTITUTION_NOT_FOUND);
+        List<Assessment> assessments = assessmentRepository.getAssessmentsByInstitutionId(institutionId);
+        List<AssessmentDto> assessmentDtos = new ArrayList<>();
+        assessments.forEach(assessment -> {
+            assessmentDtos.add(new AssessmentDto(assessment, true, true));
+        });
+
+        return assessmentDtos;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
