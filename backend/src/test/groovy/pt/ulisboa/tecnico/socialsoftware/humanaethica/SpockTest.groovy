@@ -126,6 +126,9 @@ class SpockTest extends Specification {
     public static final String USER_2_TOKEN = "c3b2a1"
     public static final Integer USER_1_ID = 1
 
+    public static final int VOLUNTEER_ID_1 = 1
+    public static final int VOLUNTEER_ID_2 = 2
+
     @Autowired
     AuthUserService authUserService
 
@@ -280,6 +283,11 @@ class SpockTest extends Specification {
 
     }
 
+
+    // participation
+
+    public static final int PARTICIPANTS_NUMBER_LIMIT = 5
+    public static final int PARTICIPATION_RATING = 10
 
     // clean database
 
