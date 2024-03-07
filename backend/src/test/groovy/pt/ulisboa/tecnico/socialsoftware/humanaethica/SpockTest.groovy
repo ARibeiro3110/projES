@@ -33,6 +33,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.Mailer
 import spock.lang.Specification
 
+import java.time.Duration
 import java.time.LocalDateTime
 import java.time.Duration
 
