@@ -75,8 +75,7 @@ class CreateEnrolmentMethodTest extends SpockTest {
 
     }
 
-    @Unroll
-    def "create enrolment and violate only one enrolment per volunteer per activity : volunteer=#volunteer"() {
+    def "create enrolment and violate only one enrolment per volunteer per activity"() {
         given: "enrolment context"
         def activity_1 = new Activity()
         activity_1.setParticipantsNumberLimit(2)
@@ -96,6 +95,29 @@ class CreateEnrolmentMethodTest extends SpockTest {
         then: "exception thrown"
         def error = thrown(HEException)
         error.getErrorMessage() == ErrorMessage.VOLUNTEER_ALREADY_ENROLLED_IN_ACTIVITY
+    }
+
+    @Unroll
+    def "create enrolment and violate volunteer cannot enrol after deadline : deadline=#deadline "() {
+        given: "enrolment context"
+        activity.getEnrolments() >> []
+        activity.getApplicationDeadline() >> deadline
+        volunteer.getId() >> USER_1_ID
+        and: "an enrolment dto"
+        enrolmentDto = new EnrolmentDto()
+        enrolmentDto.motivation = ENROLMENT_MOTIVATION_1
+        enrolmentDto.setEnrolmentDateTime(DateHandler.toISOString(NOW))
+
+        when: "create enrolment"
+        new Enrolment(activity, volunteer, enrolmentDto)
+
+        then: "exception thrown"
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.ENROLMENT_LATE_FOR_DEADLINE
+
+        where:
+        deadline << [TWO_DAYS_AGO, ONE_DAY_AGO]
+
     }
 
     @TestConfiguration
