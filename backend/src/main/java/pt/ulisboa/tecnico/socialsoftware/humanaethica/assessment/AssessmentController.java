@@ -11,6 +11,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentD
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.domain.AuthUser;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/assessments")
@@ -20,6 +21,12 @@ public class AssessmentController {
     private AssessmentService assessmentService;
 
     private static final Logger logger = LoggerFactory.getLogger(AssessmentController.class);
+
+    @GetMapping("/{institutionId}")
+    @PreAuthorize("(hasRole('ROLE_MEMBER'))")
+    public List<AssessmentDto> getInstitutionAssessments(@PathVariable Integer institutionId) {
+        return assessmentService.getAssessmentsByInstitution(institutionId);
+    }
 
     @PostMapping()
     @PreAuthorize("(hasRole('ROLE_VOLUNTEER'))")

@@ -13,6 +13,6 @@ import java.util.List;
 @Transactional
 public interface AssessmentRepository extends JpaRepository<Assessment, Integer> {
     @Query("SELECT a FROM Assessment a WHERE a.institution.id = :institutionId")
-    List<Assessment> getAssessmentsByInstitutionId(Integer institutionId);
+    List<Assessment> getAssessmentsByInstitution(Integer institutionId);
 
 }

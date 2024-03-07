@@ -33,9 +33,9 @@ public class AssessmentService {
     UserRepository userRepository;
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public List<AssessmentDto> getAssessmentsByInstitutionId(Integer institutionId) {
+    public List<AssessmentDto> getAssessmentsByInstitution(Integer institutionId) {
         if ( institutionId == null ) throw new HEException(INSTITUTION_NOT_FOUND);
-        return assessmentRepository.getAssessmentsByInstitutionId(institutionId).stream()
+        return assessmentRepository.getAssessmentsByInstitution(institutionId).stream()
                 .map(assessment-> new AssessmentDto(assessment, true, true))
                 .sorted(Comparator.comparing(AssessmentDto::getId))
                 .toList();

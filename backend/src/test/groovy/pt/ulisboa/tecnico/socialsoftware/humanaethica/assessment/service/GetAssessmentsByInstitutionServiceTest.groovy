@@ -14,7 +14,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme
 
 
 @DataJpaTest
-class GetAssessmentByInstitutionsServiceTest extends SpockTest {
+class GetAssessmentsByInstitutionsServiceTest extends SpockTest {
 
     def institution
 
@@ -65,7 +65,7 @@ class GetAssessmentByInstitutionsServiceTest extends SpockTest {
 
     def 'get two assessments'() {
         when:
-        def result = assessmentService.getAssessmentsByInstitutionId(institution.getId())
+        def result = assessmentService.getAssessmentsByInstitution(institution.getId())
 
         then:
         result.size() == 2
