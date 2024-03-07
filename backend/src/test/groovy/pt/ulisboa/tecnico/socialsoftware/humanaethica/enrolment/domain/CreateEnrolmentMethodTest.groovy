@@ -71,6 +71,27 @@ class CreateEnrolmentMethodTest extends SpockTest {
 
     }
 
+     @Unroll
+    def "create enrolment and violate only one enrolment per volunteer per activity : volunteer=#volunteer"() {
+        given: "enrolment context"
+        def activity_1 = new Activity()
+        activity_1.setParticipantsNumberLimit(2);
+        activity_1.addEnrolment(otherEnrolment)
+        otherEnrolment.getMotivation() >> ENROLMENT_MOTIVATION_5
+        otherEnrolment.getVolunteer() >> volunteer
+        volunteer.getId() >> USER_1_ID
+        and: "an enrolment dto"
+        enrolmentDto = new EnrolmentDto()
+        enrolmentDto.motivation = ENROLMENT_MOTIVATION_1
+
+        when: "create enrolment"
+        new Enrolment(activity_1, volunteer, enrolmentDto)
+
+        then: "exception thrown"
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.VOLUNTEER_ALREADY_ENROLLED_IN_ACTIVITY
+    }
+
     @TestConfiguration
     static class LocalBeanConfiguration extends BeanConfiguration {}
 }

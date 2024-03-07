@@ -80,7 +80,7 @@ public class Enrolment {
 
     public void verifyInvariants() {
         motivationHasAtLeastTenCharacters();
-        onlyOneEnrolmentPerActivityPerVolunteer(); // TODO: Implement invariant
+        onlyOneEnrolmentPerActivityPerVolunteer();
         cannotEnrolAfterDeadline(); // TODO: Implement invariant
     }
 
