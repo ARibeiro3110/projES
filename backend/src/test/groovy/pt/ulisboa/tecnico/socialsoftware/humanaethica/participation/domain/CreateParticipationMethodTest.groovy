@@ -50,6 +50,25 @@ class CreateParticipationMethodTest extends SpockTest{
 
     }
 
+    @Unroll
+    def "create participation and violate invariant total participations <= maxParticipations : participations=#participations"() {
+        given:
+        activity.getParticipantsNumberLimit() >> 1
+        activity.getParticipations() >> [otherParticipation, Mock(Participation)]
+        activity.getApplicationDeadline() >> ONE_DAY_AGO
+        volunteer.getId() >> VOLUNTEER_ID_1
+        otherParticipation.getVolunteer() >> otherVolunteer
+        otherParticipation.getVolunteer().getId() >> VOLUNTEER_ID_2
+
+        when:
+        new Participation(activity, volunteer, participationDto)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.ACTIVITY_PARTICIPANTS_LIMIT_EXCEEDED
+
+    }
+
     @TestConfiguration
     static class LocalBeanConfiguration extends BeanConfiguration {}
 
