@@ -35,46 +35,16 @@ public class EnrolmentService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public EnrolmentDto createEnrolment(Integer userId, Integer activityId, EnrolmentDto enrolmentDto) {
         if (userId == null) throw new HEException(USER_NOT_FOUND);
+        if (activityId == null) throw new HEException(ACTIVITY_NOT_FOUND);
+
         Volunteer volunteer = (Volunteer) userRepository.findById(userId).orElseThrow(() -> new HEException(USER_NOT_FOUND, userId));
         Activity activity = activityRepository.findById(activityId).orElseThrow(() -> new HEException(ACTIVITY_NOT_FOUND, activityId));
 
         Enrolment enrolment = new Enrolment(activity, volunteer, enrolmentDto);
-
         enrolmentRepository.save(enrolment);
-
         return new EnrolmentDto(enrolment, true, true);
     }
 
     // TODO: public List<EnrolmentDto> getEnrolmentsByActivity(Integer activityId)
 
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

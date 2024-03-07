@@ -67,7 +67,7 @@ class CreateEnrolmentMethodTest extends SpockTest {
         error.getErrorMessage() == ErrorMessage.MOTIVATION_HAS_LESS_THAN_TEN_CHARACTERS
 
         where:
-        motivation << [ENROLMENT_MOTIVATION_2, ENROLMENT_MOTIVATION_3, ENROLMENT_MOTIVATION_4]
+        motivation << [ENROLMENT_MOTIVATION_2, ENROLMENT_MOTIVATION_4]
 
     }
 

@@ -23,6 +23,9 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.repository.Activi
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.ActivityService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.repository.ThemeRepository
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.ThemeService
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrolment.repository.EnrolmentRepository
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrolment.EnrolmentService
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrolment.dto.EnrolmentDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.Mailer
 import spock.lang.Specification
@@ -224,6 +227,22 @@ class SpockTest extends Specification {
     public static final String ENROLMENT_MOTIVATION_4 = "Give help" // 9 characters, under threshold
     public static final String ENROLMENT_MOTIVATION_5 = "Offer help" // 10 characters, threshold limit
 
+    @Autowired
+    EnrolmentRepository enrolmentRepository
+
+    @Autowired
+    EnrolmentService enrolmentService
+
+    protected EnrolmentDto createEnrolmentDto(motivation, enrolmentDate, activityDto, userDto) {
+        def enrolmentDto = new EnrolmentDto()
+        enrolmentDto.setMotivation(motivation)
+        enrolmentDto.setEnrolmentDateTime(DateHandler.toISOString(enrolmentDate))
+        enrolmentDto.setActivity(activityDto)
+        enrolmentDto.setVolunteer(userDto)
+        enrolmentDto
+
+    }
+
 
     // clean database
 
@@ -234,6 +253,7 @@ class SpockTest extends Specification {
         userRepository.deleteAll()
         institutionRepository.deleteAll()
         themeRepository.deleteAll()
+        enrolmentRepository.deleteAll()
     }
 
 
