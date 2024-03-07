@@ -32,7 +32,7 @@ public class ParticipationService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public List<ParticipationDto> getParticipationsByActivity(Integer activityId) {
         return participationRepository.getParticipationsByActivityId(activityId).stream()
-                .map(participation-> new ParticipationDto(participation, true, true)) // TODO check if deepCopy is needed
+                .map(participation-> new ParticipationDto(participation, true, true))
                 .sorted(Comparator.comparing(ParticipationDto::getId))
                 .toList();
     }
@@ -42,7 +42,7 @@ public class ParticipationService {
         if (activityId == null) throw new HEException(ACTIVITY_NOT_FOUND);
         Activity activity = (Activity) activityRepository.findById(activityId).orElseThrow(() -> new HEException(ACTIVITY_NOT_FOUND, activityId));
         Volunteer volunteer = (Volunteer) userRepository.findById(participationDto.getVolunteer().getId())
-            .orElseThrow(() -> new HEException(USER_NOT_FOUND, participationDto.getVolunteer().getId()));
+            .orElseThrow(() -> new HEException(VOLUNTEER_NOT_FOUND, participationDto.getVolunteer().getId()));
 
         Participation participation = new Participation(activity, volunteer, participationDto);
 
