@@ -81,7 +81,7 @@ public class Enrolment {
     public void verifyInvariants() {
         motivationHasAtLeastTenCharacters();
         onlyOneEnrolmentPerActivityPerVolunteer();
-        cannotEnrolAfterDeadline(); // TODO: Implement invariant
+        cannotEnrolAfterDeadline();
     }
 
     private void motivationHasAtLeastTenCharacters() {
@@ -102,7 +102,9 @@ public class Enrolment {
     }
 
     private void cannotEnrolAfterDeadline() {
-        // TODO: Implement invariant
+        if (enrolmentDateTime.isAfter(activity.getApplicationDeadline())) {
+            throw new HEException(ENROLMENT_LATE_FOR_DEADLINE, activity.getName());
+        }
     }
 
 

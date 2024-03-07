@@ -31,7 +31,9 @@ class CreateEnrolmentMethodTest extends SpockTest {
         given: "enrolment context"
         otherEnrolment.getMotivation() >> ENROLMENT_MOTIVATION_5
         otherEnrolment.getVolunteer() >> volunteer
+        otherEnrolment.getLocalDateTime() >> NOW
         activity.getEnrolments() >> [otherEnrolment]
+        activity.getApplicationDeadline() >> IN_ONE_DAY
         volunteer.getId() >> USER_1_ID
         volunteer.getEnrolments() >> []
 
@@ -52,7 +54,9 @@ class CreateEnrolmentMethodTest extends SpockTest {
         given: "enrolment context"
         otherEnrolment.getMotivation() >> ENROLMENT_MOTIVATION_5
         otherEnrolment.getVolunteer() >> volunteer
+        otherEnrolment.getLocalDateTime() >> NOW
         activity.getEnrolments() >> [otherEnrolment]
+        activity.getApplicationDeadline() >> IN_ONE_DAY
         volunteer.getId() >> USER_1_ID
         volunteer.getEnrolments() >> []
         and: "an enrolment dto"
@@ -71,14 +75,16 @@ class CreateEnrolmentMethodTest extends SpockTest {
 
     }
 
-     @Unroll
+    @Unroll
     def "create enrolment and violate only one enrolment per volunteer per activity : volunteer=#volunteer"() {
         given: "enrolment context"
         def activity_1 = new Activity()
-        activity_1.setParticipantsNumberLimit(2);
+        activity_1.setParticipantsNumberLimit(2)
         activity_1.addEnrolment(otherEnrolment)
+        activity_1.setApplicationDeadline(IN_ONE_DAY)
         otherEnrolment.getMotivation() >> ENROLMENT_MOTIVATION_5
         otherEnrolment.getVolunteer() >> volunteer
+        otherEnrolment.getLocalDateTime() >> NOW
         volunteer.getId() >> USER_1_ID
         and: "an enrolment dto"
         enrolmentDto = new EnrolmentDto()

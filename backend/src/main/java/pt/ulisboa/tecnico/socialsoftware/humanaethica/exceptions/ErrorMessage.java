@@ -46,7 +46,8 @@ public enum ErrorMessage {
     // Enrolment
     ENROLMENT_MOTIVATION_INVALID("Enrolment motivation is not valid"),
     MOTIVATION_HAS_LESS_THAN_TEN_CHARACTERS("Enrolment motivation has less than ten characters"),
-    VOLUNTEER_ALREADY_ENROLLED_IN_ACTIVITY("Volunteer: %s, is already enrolled in activity: %s");
+    VOLUNTEER_ALREADY_ENROLLED_IN_ACTIVITY("Volunteer: %s, is already enrolled in activity: %s"),
+    ENROLMENT_LATE_FOR_DEADLINE("Enrolment is late for deadline of activity: %s");
 
     public final String label;
 
