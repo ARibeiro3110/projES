@@ -45,7 +45,10 @@ public class Activity {
     @OneToMany(mappedBy = "activity", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Enrolment> enrolments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "activity", fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<Enrolment> enrolments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Participation> participations = new ArrayList<>();
 
     @Column(name = "creation_date")
