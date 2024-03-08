@@ -91,7 +91,7 @@ class CreateAssessmentMethodTest extends SpockTest {
         finishedActivity.getName() >> ACTIVITY_NAME_1
         institution_2.addActivity(finishedActivity)
         institution_2.setName(INSTITUTION_1_NAME)
-        institution_2.setId(USER_ID_1)
+        institution_2.setId(USER_1_ID)
         otherAssessment.getInstitution() >> institution_2
         volunteer.getAssessments() >> [otherAssessment]
 
