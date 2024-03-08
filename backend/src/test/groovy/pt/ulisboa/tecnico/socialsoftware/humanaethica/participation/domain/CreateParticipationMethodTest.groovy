@@ -54,7 +54,7 @@ class CreateParticipationMethodTest extends SpockTest{
     def "create participation and violate invariant total participations <= maxParticipations"() {
         given:
         activity.getParticipantsNumberLimit() >> 1
-        activity.getParticipations() >> [otherParticipation, Mock(Participation)]
+        activity.getParticipations() >> [otherParticipation]
         activity.getApplicationDeadline() >> ONE_DAY_AGO
         volunteer.getId() >> VOLUNTEER_ID_1
         otherParticipation.getVolunteer() >> otherVolunteer

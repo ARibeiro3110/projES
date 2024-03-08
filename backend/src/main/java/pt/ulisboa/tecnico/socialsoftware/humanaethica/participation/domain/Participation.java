@@ -87,16 +87,15 @@ public class Participation {
     }
 
     private void participantsLimitIsNotExceeded() {
-        if (activity.getParticipations().size() > activity.getParticipantsNumberLimit()) {
+        if (activity.getParticipantsNumberLimit() < activity.getParticipations().stream().
+                filter(participation -> participation != this).count() + 1) {
             throw new HEException(ACTIVITY_PARTICIPANTS_LIMIT_EXCEEDED, activity.getName());
         }
     }
 
     private void volunteerParticipatesOnceInActivity() {
-        long volunteer_count = activity.getParticipations().stream()
-                                .filter(p -> p.getVolunteer().getId().equals(volunteer.getId()))
-                                .count();
-        if (volunteer_count > 1) { 
+        if (activity.getParticipations().stream()
+                .anyMatch(participation -> participation != this && participation.getVolunteer().getId().equals(volunteer.getId()))) {
             throw new HEException(VOLUNTEER_ALREADY_PARTICIPATING_IN_ACTIVITY, volunteer.getName(), activity.getName());
         }
     }
