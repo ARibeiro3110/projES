@@ -3,12 +3,15 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.webservice
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.WebClientResponseException
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.SpockTest
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.domain.Assessment
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.repository.AssessmentRepository
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.User
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
@@ -99,4 +102,27 @@ class GetAssessmentsWebServiceIT extends SpockTest {
         cleanup:
         deleteAll()
     }
+
+    def "institutionId is not associated to any institution and cannot get assessments"() {
+        given:
+        def otherInstitutionId = 2
+
+        when:
+        def response = webClient.get()
+                .uri("/assessments/${otherInstitutionId}")
+                .headers(httpHeaders -> httpHeaders.putAll(headers))
+                .retrieve()
+                .bodyToFlux(AssessmentDto.class)
+                .collectList()
+                .block()
+
+        then: "an error is returned"
+        def error = thrown(WebClientResponseException)
+        error.statusCode == HttpStatus.FORBIDDEN
+        assessmentRepository.count() == 2
+
+        cleanup:
+        deleteAll()
+    }
+
 }
