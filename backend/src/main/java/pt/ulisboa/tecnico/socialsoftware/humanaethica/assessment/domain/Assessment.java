@@ -16,8 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "assessment")
 public class Assessment {
-    // state?
-    // ...
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

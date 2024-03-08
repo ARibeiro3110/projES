@@ -13,7 +13,7 @@ import java.util.List;
 public class AssessmentDto{
     private Integer id;
     private String review;
-    private String reviewDate; // Should it be LocalDateTimeDto ??
+    private String reviewDate;
     private InstitutionDto institution;
     private UserDto volunteer;
 
@@ -25,8 +25,6 @@ public class AssessmentDto{
         setId(assessment.getId());
         setReview(assessment.getReview());
         setReviewDate(DateHandler.toISOString(assessment.getReviewDate()));
-        //setVolunteer(assessment.getVolunteer());
-        //setInstitution(assessment.getInstitution());
 
         if (deepCopyInstitution && (assessment.getInstitution() != null)) {
             setInstitution(new InstitutionDto(assessment.getInstitution(), false, false));
@@ -66,7 +64,7 @@ public class AssessmentDto{
 
     public void setInstitution(InstitutionDto institution) {
         this.institution = institution;
-    } // possible FIX ME
+    }
 
     public UserDto getVolunteer() {
         return volunteer;
@@ -74,7 +72,7 @@ public class AssessmentDto{
 
     public void setVolunteer(UserDto volunteer) {
         this.volunteer = volunteer;
-    } // possible FIX ME
+    }
 
 
 }

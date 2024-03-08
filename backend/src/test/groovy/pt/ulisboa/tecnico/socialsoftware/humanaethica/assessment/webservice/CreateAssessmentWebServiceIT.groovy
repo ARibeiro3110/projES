@@ -40,9 +40,6 @@ class CreateAssessmentWebServiceIT extends SpockTest {
         institution.addActivity(activity)
         institutionRepository.save(institution)
 
-        volunteer  = new Volunteer()
-        userRepository.save(volunteer)
-
         assessmentDto = createAssessmentDto(ASSESSMENT_REVIEW_1, DateHandler.toISOString(IN_ONE_DAY))
     }
 
@@ -73,7 +70,7 @@ class CreateAssessmentWebServiceIT extends SpockTest {
         deleteAll()
     }
 
-    def "login as volunteer, and create an activity with error"() {
+    def "login as volunteer, and create an assessment with error"() {
         given: 'a volunteer'
         demoVolunteerLogin()
         and: 'a name with blanks'
@@ -97,7 +94,7 @@ class CreateAssessmentWebServiceIT extends SpockTest {
         deleteAll()
     }
 
-    def "login as a member, and create an activity"() {
+    def "login as a member, and create an assessment"() {
         given: 'a member'
         demoMemberLogin()
 
@@ -119,11 +116,11 @@ class CreateAssessmentWebServiceIT extends SpockTest {
         deleteAll()
     }
 
-    def "login as admin, and create an activity"() {
+    def "login as admin, and create an assessment"() {
         given: 'a demo'
         demoAdminLogin()
 
-        when: 'the admin registers the activity'
+        when: 'the admin registers the assessment'
         webClient.post()
                 .uri('/assessments/' + institution.getId())
                 .headers(httpHeaders -> httpHeaders.putAll(headers))
