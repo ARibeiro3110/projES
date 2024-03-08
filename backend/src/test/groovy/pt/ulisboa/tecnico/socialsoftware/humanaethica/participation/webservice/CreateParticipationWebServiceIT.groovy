@@ -13,11 +13,9 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.Particip
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.dto.UserDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.dto.ThemeDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.User
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.InstitutionService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler
 
 
@@ -27,7 +25,8 @@ class CreateParticipationWebServiceIT extends SpockTest {
     private int port
 
     def participationDto
-    def activityId
+    def activity
+    def volunteer
 
     def setup() {
         deleteAll()
@@ -41,7 +40,7 @@ class CreateParticipationWebServiceIT extends SpockTest {
         def theme = new Theme(THEME_NAME_1, Theme.State.APPROVED, null)
         themeRepository.save(theme)
 
-        def activity = new Activity()
+        activity = new Activity()
         activity.setName(ACTIVITY_NAME_1)
         activity.setRegion(ACTIVITY_REGION_1)
         activity.setParticipantsNumberLimit(5)
@@ -54,7 +53,7 @@ class CreateParticipationWebServiceIT extends SpockTest {
         activity.setState(Activity.State.APPROVED)
         activityRepository.save(activity)
 
-        def volunteer = new Volunteer()
+        volunteer = new Volunteer()
         volunteer.setName(USER_1_NAME)
         volunteer.setRole(User.Role.VOLUNTEER)
         volunteer.setState(User.State.ACTIVE)
@@ -66,12 +65,12 @@ class CreateParticipationWebServiceIT extends SpockTest {
         participationDto = createParticipationDto(PARTICIPATION_RATING, NOW, activityDto, volunteerDto)
     }
 
-    /* def "login as member, and create participation"() {
+     def "login as member, and create participation"() {
         given:
         demoMemberLogin()
 
         when:
-        activityId = activityRepository.findAll().get(0).getId()
+        def activityId = activityRepository.findAll().get(0).getId()
         def response = webClient.post()
                 .uri("/participations/${activityId}")
                 .headers(httpHeaders -> httpHeaders.putAll(headers))
@@ -93,16 +92,18 @@ class CreateParticipationWebServiceIT extends SpockTest {
 
         cleanup:
         deleteAll()
-    } */
+    }
 
     def "login as member, and create participation with error"() {
         given: "a member"
         demoMemberLogin()
-        and: "an invalid acceptance date"
-        participationDto.setAcceptanceDate(DateHandler.toISOString(TWO_DAYS_AGO))
+        and: "a duplicate participation"
+        def participation = new Participation(activity, volunteer, participationDto)
+        participationRepository.save(participation)
 
         when: "the member tries to create a participation"
-        def response = webClient.post()
+        def activityId = activityRepository.findAll().get(0).getId()
+        webClient.post()
                 .uri("/participations/${activityId}")
                 .headers(httpHeaders -> httpHeaders.putAll(headers))
                 .bodyValue(participationDto)
@@ -113,7 +114,7 @@ class CreateParticipationWebServiceIT extends SpockTest {
         then: "check response status"
         def error = thrown(WebClientResponseException)
         error.getStatusCode() == HttpStatus.BAD_REQUEST
-        participationRepository.count() == 0
+        participationRepository.count() == 1
 
         cleanup:
         deleteAll()
@@ -125,7 +126,7 @@ class CreateParticipationWebServiceIT extends SpockTest {
 
         when: "the volunteer tries to create a participation"
         def activityId = activityRepository.findAll().get(0).getId()
-        def response = webClient.post()
+        webClient.post()
             .uri("/participations/${activityId}")
             .headers(httpHeaders -> httpHeaders.putAll(headers))
             .bodyValue(participationDto)

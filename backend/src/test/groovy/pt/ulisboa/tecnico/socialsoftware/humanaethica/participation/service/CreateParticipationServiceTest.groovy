@@ -63,12 +63,9 @@ class CreateParticipationServiceTest extends SpockTest{
         given: "a participation dto"
         def participationDto = new ParticipationDto()
         participationDto.setRating(PARTICIPATION_RATING)
-        println("before")
         participationDto.setVolunteer(getVolunteerDto(volunteerId))
-        println("after")
         when:
         participationService.createParticipation(getActivityId(activityId), participationDto)
-        println("way after")
         then:
         def error = thrown(HEException)
         error.getErrorMessage() == errorMessage
