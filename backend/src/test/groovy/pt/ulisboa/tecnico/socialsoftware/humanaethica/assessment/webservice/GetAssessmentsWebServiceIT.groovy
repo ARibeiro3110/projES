@@ -77,7 +77,9 @@ class GetAssessmentsWebServiceIT extends SpockTest {
     }
 
 
-    def "get two assessments"() {
+    def "Login as a member and get two assessments"() {
+        given:
+        demoMemberLogin()
         when:
         def response = webClient.get()
                 .uri("/assessments/${institutionId}")
@@ -100,12 +102,64 @@ class GetAssessmentsWebServiceIT extends SpockTest {
         deleteAll()
     }
 
+    def "Login as an admin and get two assessments"() {
+        given:
+        demoAdminLogin()
+        when:
+        def response = webClient.get()
+                .uri("/assessments/${institutionId}")
+                .headers(httpHeaders -> httpHeaders.putAll(headers))
+                .retrieve()
+                .bodyToFlux(AssessmentDto.class)
+                .collectList()
+                .block()
+
+        then: "check response data"
+        response.size() == 2
+        response.get(0).review == ASSESSMENT_REVIEW_1
+        response.get(0).volunteer.name == USER_1_NAME
+        withinFiveMinutes(response.get(0).reviewDate, DateHandler.toISOString(IN_TWO_DAYS))
+        response.get(1).review == ASSESSMENT_REVIEW_2
+        response.get(1).volunteer.name == USER_2_NAME
+        withinFiveMinutes(response.get(1).reviewDate, DateHandler.toISOString(IN_TWO_DAYS))
+
+        cleanup:
+        deleteAll()
+    }
+
+    def "Login as a volunteer and get two assessments"() {
+        given:
+        demoVolunteerLogin()
+        when:
+        def response = webClient.get()
+                .uri("/assessments/${institutionId}")
+                .headers(httpHeaders -> httpHeaders.putAll(headers))
+                .retrieve()
+                .bodyToFlux(AssessmentDto.class)
+                .collectList()
+                .block()
+
+        then: "check response data"
+        response.size() == 2
+        response.get(0).review == ASSESSMENT_REVIEW_1
+        response.get(0).volunteer.name == USER_1_NAME
+        withinFiveMinutes(response.get(0).reviewDate, DateHandler.toISOString(IN_TWO_DAYS))
+        response.get(1).review == ASSESSMENT_REVIEW_2
+        response.get(1).volunteer.name == USER_2_NAME
+        withinFiveMinutes(response.get(1).reviewDate, DateHandler.toISOString(IN_TWO_DAYS))
+
+        cleanup:
+        deleteAll()
+    }
+
+
+
     def "institutionId is not associated to any institution and cannot get assessments"() {
         given:
         def otherInstitutionId = 2
 
         when:
-        def response = webClient.get()
+        webClient.get()
                 .uri("/assessments/${otherInstitutionId}")
                 .headers(httpHeaders -> httpHeaders.putAll(headers))
                 .retrieve()
