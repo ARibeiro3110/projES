@@ -21,7 +21,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class GetActivityParticipationsServiceTest extends SpockTest{
+class GetActivityParticipationsWebServiceIT extends SpockTest{
     @LocalServerPort
     private int port
 
