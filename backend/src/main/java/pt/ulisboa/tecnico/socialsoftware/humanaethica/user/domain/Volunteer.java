@@ -59,6 +59,5 @@ public class Volunteer extends User {
 
     public void addParticipation(Participation participation) {
         participations.add(participation);
-        participation.setVolunteer(this);
     }
 }

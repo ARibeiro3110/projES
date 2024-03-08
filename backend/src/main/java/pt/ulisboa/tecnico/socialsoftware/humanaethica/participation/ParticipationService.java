@@ -41,7 +41,10 @@ public class ParticipationService {
     public ParticipationDto createParticipation(Integer activityId, ParticipationDto participationDto) {
         if (activityId == null) throw new HEException(ACTIVITY_NOT_FOUND);
         Activity activity = (Activity) activityRepository.findById(activityId).orElseThrow(() -> new HEException(ACTIVITY_NOT_FOUND, activityId));
-        Volunteer volunteer = (Volunteer) userRepository.findById(participationDto.getVolunteer().getId())
+
+        Integer volunteerId = participationDto.getVolunteer().getId();
+        if (volunteerId == null) throw new HEException(VOLUNTEER_NOT_FOUND);
+        Volunteer volunteer = (Volunteer) userRepository.findById(volunteerId)
             .orElseThrow(() -> new HEException(VOLUNTEER_NOT_FOUND, participationDto.getVolunteer().getId()));
 
         Participation participation = new Participation(activity, volunteer, participationDto);
