@@ -77,10 +77,7 @@ class GetAssessmentsWebServiceIT extends SpockTest {
     }
 
 
-    def "login as a member, and get assessments"() {
-        given: "a member"
-        demoMemberLogin()
-
+    def "get two assessments"() {
         when:
         def response = webClient.get()
                 .uri("/assessments/${institutionId}")
@@ -124,5 +121,6 @@ class GetAssessmentsWebServiceIT extends SpockTest {
         cleanup:
         deleteAll()
     }
+
 
 }

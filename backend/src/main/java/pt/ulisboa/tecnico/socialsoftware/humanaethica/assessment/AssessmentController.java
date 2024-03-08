@@ -23,7 +23,6 @@ public class AssessmentController {
     private static final Logger logger = LoggerFactory.getLogger(AssessmentController.class);
 
     @GetMapping("/{institutionId}")
-    @PreAuthorize("(hasRole('ROLE_MEMBER'))")
     public List<AssessmentDto> getInstitutionAssessments(@PathVariable Integer institutionId) {
         return assessmentService.getAssessmentsByInstitution(institutionId);
     }
