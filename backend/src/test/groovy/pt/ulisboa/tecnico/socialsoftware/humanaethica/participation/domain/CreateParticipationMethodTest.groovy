@@ -70,6 +70,24 @@ class CreateParticipationMethodTest extends SpockTest{
     }
 
     @Unroll
+    def "create participation and violate invariant volunteer can only participate once in an activity"() {
+        given:
+        activity.getParticipations() >> [otherParticipation]
+        activity.getParticipantsNumberLimit() >> PARTICIPANTS_NUMBER_LIMIT
+        activity.getApplicationDeadline() >> ONE_DAY_AGO
+        volunteer.getId() >> VOLUNTEER_ID_1
+        otherParticipation.getVolunteer() >> volunteer
+
+        when:
+        new Participation(activity, volunteer, participationDto)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.VOLUNTEER_ALREADY_PARTICIPATING_IN_ACTIVITY
+
+    }
+
+    @Unroll
     def "create participation and violate invariant acceptanceDate after applicationDeadline"() {
         given:
         activity.getParticipations() >> [otherParticipation]
