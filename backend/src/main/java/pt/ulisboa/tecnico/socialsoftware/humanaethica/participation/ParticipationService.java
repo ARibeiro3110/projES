@@ -52,4 +52,14 @@ public class ParticipationService {
 
         return new ParticipationDto(participation);
     }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public List<ParticipationDto> getParticipationsByVolunteerId(Integer volunteerId) {
+        if (volunteerId == null) throw  new HEException(USER_NOT_FOUND);
+
+        return participationRepository.getParticipationsByVolunteerId(volunteerId).stream()
+                .sorted(Comparator.comparing(Participation::getAcceptanceDate))
+                .map(ParticipationDto::new)
+                .toList();
+    }
 }
