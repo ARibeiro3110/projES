@@ -33,7 +33,7 @@ public class ParticipationController {
     @PreAuthorize("(hasRole('ROLE_VOLUNTEER'))")
     public List<ParticipationDto> getVolunteerParticipations(Principal principal) {
         int userId = ((AuthUser) ((Authentication) principal).getPrincipal()).getUser().getId();
-        return participationService.getVolunteerParticipations(userId);
+        return participationService.getParticipationsByVolunteerId(userId);
     }
 
 }
