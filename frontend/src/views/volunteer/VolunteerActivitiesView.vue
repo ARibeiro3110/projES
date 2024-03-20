@@ -40,6 +40,17 @@
             </template>
             <span>Report Activity</span>
           </v-tooltip>
+          <v-tooltip v-if="true">
+            <template v-slot:activator="{ on }">
+              <v-icon
+                  class="mr-2 action-button"
+                  @click="reviewInstitution(item)"
+                  v-on="on"
+              >rate_review
+              </v-icon>
+            </template>
+            <span>Review Institution</span>
+          </v-tooltip>
         </template>
       </v-data-table>
     </v-card>
@@ -58,6 +69,9 @@ import { show } from 'cli-cursor';
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
   search: string = '';
+
+  reviewInstitutionDialog: boolean = false;
+
   headers: object = [
     {
       text: 'Name',
@@ -145,6 +159,10 @@ export default class VolunteerActivitiesView extends Vue {
         await this.$store.dispatch('error', error);
       }
     }
+  }
+
+  reviewInstitution(activity: Activity) {
+    this.reviewInstitutionDialog = true;
   }
 }
 </script>
