@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto;
 
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.dto.InstitutionDto;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.dto.ThemeDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto.EnrollmentDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
@@ -22,6 +23,7 @@ public class ActivityDto {
     private List<ThemeDto> themes;
     private List<EnrollmentDto> enrollments;
     private InstitutionDto institution;
+    private List<ParticipationDto> participations;
     private Integer numberOfEnrollments;
 
     public ActivityDto(){
@@ -36,6 +38,10 @@ public class ActivityDto {
 
         this.themes = activity.getThemes().stream()
                 .map(theme->new ThemeDto(theme,false, true, false))
+                .toList();
+
+        this.participations = activity.getParticipations().stream()
+                .map(participation -> new ParticipationDto(participation))
                 .toList();
 
         this.enrollments = activity.getEnrollments().stream()
@@ -158,6 +164,14 @@ public class ActivityDto {
         this.participantsNumberLimit = participantsNumberLimit;
     }
 
+    public List<ParticipationDto> getParticipations() {
+        return participations;
+    }
+
+    public void setParticipations(List<ParticipationDto> participations) {
+        this.participations = participations;
+    }
+
     public Integer getNumberOfEnrollments() {
         return numberOfEnrollments;
     }
@@ -181,6 +195,7 @@ public class ActivityDto {
                 ", creationDate='" + creationDate + '\'' +
                 ", themes=" + themes +
                 ", institution=" + institution +
+                ", participations=" + participations +
                 '}';
     }
 }

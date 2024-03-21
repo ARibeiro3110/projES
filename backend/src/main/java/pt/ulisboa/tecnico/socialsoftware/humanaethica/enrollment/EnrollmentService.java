@@ -29,12 +29,22 @@ public class EnrollmentService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public List<EnrollmentDto> getEnrollmentsByActivity(Integer activityId) {
         if (activityId == null) throw  new HEException(ACTIVITY_NOT_FOUND);
-        activityRepository.findById(activityId).orElseThrow(() -> new HEException(ACTIVITY_NOT_FOUND, activityId));
+        Activity activity = activityRepository.findById(activityId).orElseThrow(() -> new HEException(ACTIVITY_NOT_FOUND, activityId));
 
-        return enrollmentRepository.getEnrollmentsByActivityId(activityId).stream()
-                .sorted(Comparator.comparing(e -> e.getEnrollmentDateTime()))
-                .map(enrollment -> new EnrollmentDto(enrollment))
-                .toList();
+        List<EnrollmentDto> enrollments = enrollmentRepository.getEnrollmentsByActivityId(activityId).stream()
+                                        .sorted(Comparator.comparing(Enrollment::getEnrollmentDateTime))
+                                        .map(EnrollmentDto::new)
+                                        .toList();
+        
+        // Set isParticipating for each enrollment
+        for (EnrollmentDto enrollment : enrollments) {
+            boolean isParticipating = activity.getParticipations().stream()
+                                .anyMatch(participation -> participation.getVolunteer().getId()
+                                .equals(enrollment.getVolunteer().getId()));
+            enrollment.setParticipating(isParticipating);
+        }
+
+        return enrollments;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
