@@ -31,7 +31,7 @@
       <template v-slot:[`item.volunteer`]="{ item }">
         {{ item.volunteer.name }}
       </template>
-      <template v-slot:[`item.actions`]="{ item }">
+      <template v-slot:[`item.action`]="{ item }">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-icon
@@ -45,6 +45,12 @@
         </v-tooltip>
       </template>
     </v-data-table>
+    <participation-selection-dialog
+      v-if="selectParticipantDialog"
+      v-model="selectParticipantDialog"
+      :enrollment="selectedEnrollment"
+      @close-participation-selection-dialog="onCloseParticipationSelectionDialog"
+      />
   </v-card>
 </template>
 
@@ -53,14 +59,20 @@ import { Component, Vue } from 'vue-property-decorator';
 import RemoteServices from '@/services/RemoteServices';
 import Activity from '@/models/activity/Activity';
 import Enrollment from '@/models/enrollment/Enrollment';
+import ParticipationSelectionDialog from '@/views/member/ParticipationSelectionDialog.vue';
 
-@Component({})
+@Component({
+  components: {
+    ParticipationSelectionDialog,
+  }
+})
 export default class InstitutionActivityEnrollmentsView extends Vue {
   activity!: Activity;
   enrollments: Enrollment[] = [];
   search: string = '';
 
   selectParticipantDialog: boolean = false;
+  selectedEnrollment: Enrollment | null = null;
 
   headers: object = [
     {
@@ -89,7 +101,7 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
     },
     {
       text: 'Actions',
-      value: 'actions',
+      value: 'action',
       align: 'left',
       sortable: false,
       width: '5%',
@@ -112,7 +124,13 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
   }
 
   selectParticipant(enrollment: Enrollment) {
+    this.selectedEnrollment = enrollment;
     this.selectParticipantDialog = true;
+  }
+
+  onCloseParticipationSelectionDialog() {
+    this.selectParticipantDialog = false;
+    this.selectedEnrollment = null;
   }
 
   async getActivities() {
