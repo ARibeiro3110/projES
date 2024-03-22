@@ -31,6 +31,19 @@
       <template v-slot:[`item.volunteer`]="{ item }">
         {{ item.volunteer.name }}
       </template>
+      <template v-slot:[`item.actions`]="{ item }">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-icon
+              class="mr-2 action-button"
+              @click="selectParticipant(item)"
+              v-on="on"
+            >fa-solid fa-check
+            </v-icon>
+          </template>
+          <span>Select Participant</span>
+        </v-tooltip>
+      </template>
     </v-data-table>
   </v-card>
 </template>
@@ -46,6 +59,8 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
   activity!: Activity;
   enrollments: Enrollment[] = [];
   search: string = '';
+
+  selectParticipantDialog: boolean = false;
 
   headers: object = [
     {
@@ -72,6 +87,13 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
       align: 'left',
       width: '5%',
     },
+    {
+      text: 'Actions',
+      value: 'actions',
+      align: 'left',
+      sortable: false,
+      width: '5%',
+    }
   ];
 
   async created() {
@@ -87,6 +109,10 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
       }
       await this.$store.dispatch('clearLoading');
     }
+  }
+
+  selectParticipant(enrollment: Enrollment) {
+    this.selectParticipantDialog = true;
   }
 
   async getActivities() {
