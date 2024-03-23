@@ -14,6 +14,7 @@ import Theme from '@/models/theme/Theme';
 import Enrollment from '@/models/enrollment/Enrollment';
 import Assessment from '@/models/assessment/Assessment';
 import Participation from "@/models/participation/Participation";
+import Volunteer from '@/models/volunteer/Volunteer';
 
 const httpClient = axios.create();
 httpClient.defaults.timeout = 100000;
@@ -512,6 +513,19 @@ export default class RemoteServices {
       .catch(async (error) => {
         throw Error(await this.errorMessage(error));
       });
+  }
+
+  static async getVolunteerAssessments(): Promise<Assessment[]> {
+    return httpClient
+        .get('/volunteer/assessments')
+        .then((response) => {
+          return response.data.map((assessment: any) => {
+            return new Assessment(assessment);
+          });
+        })
+        .catch(async (error) => {
+          throw Error(await this.errorMessage(error));
+        });
   }
 
   // Theme Controller
