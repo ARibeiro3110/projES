@@ -12,7 +12,7 @@
 
         <v-card-text class="text-left">
           <v-text-field
-            v-model="rating"
+            v-model="participation.rating"
             label="Rating"
             data-cy="ratingInput"
             required
@@ -40,7 +40,6 @@ export default class ParticipationSelectionDialog extends Vue {
   @Model('dialog', Boolean) dialog!: boolean;
   @Prop({ type: Object, required: true }) readonly enrollment!: Enrollment;
   @Prop({ type: Object, required: true }) readonly activity!: Activity;
-  rating: string = ''; 
 
   participation: Participation = new Participation();
 
