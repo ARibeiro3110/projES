@@ -59,7 +59,7 @@
                   color="blue"
                   v-on="on"
                   data-cy="enrollButton"
-                  @click="reportActivity(item)"
+                  @click="enrollInActivity(item)"
               >fa-solid fa-sign-in</v-icon
               >
             </template>
@@ -75,7 +75,11 @@
           v-on:close-assessment-dialog="onCloseAssessmentDialog"
           v-on:save-assessment="onSaveAssessment"
       />
-
+      <enrollment-dialog
+        v-if="selectedActivity && enrollmentDialog"
+        v-model="enrollmentDialog"
+        :activity="selectedActivity"
+      />
     </v-card>
   </div>
 </template>
@@ -90,18 +94,22 @@ import { show } from 'cli-cursor';
 import Institution from '@/models/institution/Institution';
 import Volunteer from '@/models/volunteer/Volunteer';
 import AssessmentDialog from '@/views/volunteer/AssessmentDialog.vue';
+import EnrollmentDialog from '@/views/volunteer/EnrollmentDialog.vue';
 
 @Component({
   methods: { show },
   components: {
     'assessment-dialog': AssessmentDialog,
-  }
-
+    'enrollment-dialog': EnrollmentDialog,
+  },
 })
+
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
   assessments: Assessment[] = [];
   participations: Participation[] = [];
+  selectedActivity: Activity | null = null;
+  enrollmentDialog: boolean = false;
   search: string = '';
 
   institution: Institution | null = null;
@@ -236,6 +244,11 @@ export default class VolunteerActivitiesView extends Vue {
     return this.participations.some(participation =>
         participation.activityId === activity.id
     );
+  }
+  
+  async enrollInActivity(activity: Activity) {
+    this.selectedActivity = activity;
+    this.enrollmentDialog = true;
   }
 }
 </script>
