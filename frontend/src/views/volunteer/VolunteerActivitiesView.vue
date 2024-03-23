@@ -40,7 +40,7 @@
             </template>
             <span>Report Activity</span>
           </v-tooltip>
-          <v-tooltip bottom>
+          <v-tooltip v-if="isEnrollmentOpen(item) && !isVolunteerEnrolled(item)" bottom>
             <template v-slot:activator="{ on }">
               <v-icon
                   class="mr-2 action-button"
@@ -64,12 +64,14 @@ import { Component, Vue } from 'vue-property-decorator';
 import RemoteServices from '@/services/RemoteServices';
 import Activity from '@/models/activity/Activity';
 import { show } from 'cli-cursor';
+import Enrollment from '@/models/enrollment/Enrollment';
 
 @Component({
   methods: { show },
 })
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
+  volunteerEnrollments: Enrollment[] = [];
   search: string = '';
   headers: object = [
     {
@@ -139,6 +141,7 @@ export default class VolunteerActivitiesView extends Vue {
     await this.$store.dispatch('loading');
     try {
       this.activities = await RemoteServices.getActivities();
+      this.volunteerEnrollments = await RemoteServices.getVolunteerEnrollments();
     } catch (error) {
       await this.$store.dispatch('error', error);
     }
@@ -158,6 +161,15 @@ export default class VolunteerActivitiesView extends Vue {
         await this.$store.dispatch('error', error);
       }
     }
+  }
+
+  isEnrollmentOpen(activity: Activity) {
+    // check if current date is before the application deadline
+    return new Date(activity.applicationDeadline) > new Date();
+  }
+ 
+  isVolunteerEnrolled(activity: Activity) {
+    return this.volunteerEnrollments.some((enrollment) => enrollment.activityId === activity.id);
   }
 }
 </script>
