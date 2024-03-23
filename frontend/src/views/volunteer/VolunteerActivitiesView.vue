@@ -61,8 +61,8 @@
 import { Component, Vue } from 'vue-property-decorator';
 import RemoteServices from '@/services/RemoteServices';
 import Activity from '@/models/activity/Activity';
-import Assessment from '@/models/assessment/Assessment';
 import Participation from '@/models/participation/Participation';
+import Assessment from '@/models/assessment/Assessment';
 import { show } from 'cli-cursor';
 
 @Component({
@@ -179,10 +179,8 @@ export default class VolunteerActivitiesView extends Vue {
   }
 
   hasVolunteerAssessed(activity: Activity) {
-    return this.assessments.some(assessment =>
-        activity.institution.assessments.some(activityAssessment =>
-            assessment === activityAssessment
-        )
+    return this.assessments.institutionId.some(institutionId =>
+        activity.institution.id === institutionId
     );
   }
 
