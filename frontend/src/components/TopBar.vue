@@ -1,4 +1,4 @@
-<template>
+  <template>
   <nav>
     <v-app-bar clipped-left color="white">
       <v-app-bar-nav-icon

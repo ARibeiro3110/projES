@@ -40,6 +40,19 @@
             </template>
             <span>Report Activity</span>
           </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-icon
+                  class="mr-2 action-button"
+                  color="blue"
+                  v-on="on"
+                  data-cy="enrollButton"
+                  @click="reportActivity(item)"
+              >fa-solid fa-sign-in</v-icon
+              >
+            </template>
+            <span>Enroll in Activity</span>
+          </v-tooltip>
         </template>
       </v-data-table>
     </v-card>
