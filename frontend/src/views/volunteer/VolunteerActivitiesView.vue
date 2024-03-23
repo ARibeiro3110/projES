@@ -52,7 +52,7 @@
             </template>
             <span>Review Institution</span>
           </v-tooltip>
-          <v-tooltip bottom>
+          <v-tooltip v-if="isEnrollmentOpen(item) && !isVolunteerEnrolled(item)" bottom>
             <template v-slot:activator="{ on }">
               <v-icon
                   class="mr-2 action-button"
@@ -117,10 +117,10 @@ export default class VolunteerActivitiesView extends Vue {
   currentEnrollment: Enrollment | null = null;
   volunteer: Volunteer | null = null;
   enrollmentDialog: boolean = false;
+  volunteerEnrollments: Enrollment[] = [];
   search: string = '';
 
   institution: Institution | null = null;
-  volunteer: Volunteer | null = null;
   assessInstitutionDialog: boolean = false;
 
   headers: object = [
@@ -194,6 +194,7 @@ export default class VolunteerActivitiesView extends Vue {
       this.assessments = await RemoteServices.getVolunteerAssessments();
       this.participations = await RemoteServices.getParticipationsByVolunteer();
       this.volunteer = this.$store.getters.getUser;
+      this.volunteerEnrollments = await RemoteServices.getVolunteerEnrollments();
     } catch (error) {
       await this.$store.dispatch('error', error);
     }
@@ -208,7 +209,7 @@ export default class VolunteerActivitiesView extends Vue {
   async onEnrollInActivity(newEnrollment: Enrollment) {
     if (this.currentActivity) {
       this.currentActivity.enrollments = this.currentActivity.enrollments.filter(
-          (e) => e.activity?.id !== newEnrollment.activity?.id,
+          (e) => e.activityId !== newEnrollment.activityId,
       ) ?? [];
       this.currentActivity.enrollments.unshift(newEnrollment);
       this.enrollmentDialog = false;
@@ -272,6 +273,15 @@ export default class VolunteerActivitiesView extends Vue {
   async enrollInActivity(activity: Activity) {
     this.currentActivity = activity;
     this.enrollmentDialog = true;
+  }
+
+  isEnrollmentOpen(activity: Activity) {
+    // check if current date is before the application deadline
+    return new Date(activity.applicationDeadline) > new Date();
+  }
+ 
+  isVolunteerEnrolled(activity: Activity) {
+    return this.volunteerEnrollments.some((enrollment) => enrollment.activityId === activity.id);
   }
 }
 </script>
