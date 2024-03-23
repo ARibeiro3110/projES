@@ -40,7 +40,7 @@
             </template>
             <span>Report Activity</span>
           </v-tooltip>
-          <v-tooltip v-if="true">
+          <v-tooltip v-if="isActivityFinished(item) && !hasVolunteerAssessed(item) && !hasVolunteerParticipated(item)">
             <template v-slot:activator="{ on }">
               <v-icon
                   class="mr-2 action-button"
@@ -61,6 +61,8 @@
 import { Component, Vue } from 'vue-property-decorator';
 import RemoteServices from '@/services/RemoteServices';
 import Activity from '@/models/activity/Activity';
+import Assessment from '@/models/assessment/Assessment';
+import Participation from '@/models/participation/Participation';
 import { show } from 'cli-cursor';
 
 @Component({
@@ -68,6 +70,8 @@ import { show } from 'cli-cursor';
 })
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
+  assessments: Assessment[] = [];
+  participations: Participation[] = [];
   search: string = '';
 
   reviewInstitutionDialog: boolean = false;
@@ -140,6 +144,8 @@ export default class VolunteerActivitiesView extends Vue {
     await this.$store.dispatch('loading');
     try {
       this.activities = await RemoteServices.getActivities();
+      this.assessments = await RemoteServices.getVolunteerAssessments();
+      this.participations = await RemoteServices.getParticipationsByVolunteer();
     } catch (error) {
       await this.$store.dispatch('error', error);
     }
@@ -163,6 +169,27 @@ export default class VolunteerActivitiesView extends Vue {
 
   reviewInstitution(activity: Activity) {
     this.reviewInstitutionDialog = true;
+  }
+
+  isActivityFinished(activity: Activity) {
+    const activityDate = new Date(activity.endingDate);
+    const currentDate = new Date();
+
+    return activityDate < currentDate;
+  }
+
+  hasVolunteerAssessed(activity: Activity) {
+    return this.assessments.some(assessment =>
+        activity.institution.assessments.some(activityAssessment =>
+            assessment === activityAssessment
+        )
+    );
+  }
+
+  hasVolunteerParticipated(activity: Activity) {
+    return this.participations.some(participation =>
+        participation.activityId === activity.id
+    );
   }
 }
 </script>

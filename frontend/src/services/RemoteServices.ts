@@ -517,7 +517,7 @@ export default class RemoteServices {
 
   static async getVolunteerAssessments(): Promise<Assessment[]> {
     return httpClient
-        .get('/volunteer/assessments')
+        .get('/assessments/volunteer')
         .then((response) => {
           return response.data.map((assessment: any) => {
             return new Assessment(assessment);
