@@ -49,7 +49,8 @@
       v-if="selectParticipantDialog"
       v-model="selectParticipantDialog"
       :enrollment="selectedEnrollment"
-      @close-participation-selection-dialog="onCloseParticipationSelectionDialog"
+      :activity="activity"
+      v-on:close-participation-selection-dialog="onCloseParticipationSelectionDialog"
       />
   </v-card>
 </template>
@@ -63,7 +64,7 @@ import ParticipationSelectionDialog from '@/views/member/ParticipationSelectionD
 
 @Component({
   components: {
-    ParticipationSelectionDialog,
+    'participation-selection-dialog': ParticipationSelectionDialog,
   }
 })
 export default class InstitutionActivityEnrollmentsView extends Vue {
