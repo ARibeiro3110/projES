@@ -47,7 +47,7 @@
                   color="blue"
                   v-on="on"
                   data-cy="enrollButton"
-                  @click="reportActivity(item)"
+                  @click="enrollInActivity(item)"
               >fa-solid fa-sign-in</v-icon
               >
             </template>
@@ -55,6 +55,11 @@
           </v-tooltip>
         </template>
       </v-data-table>
+      <enrollment-dialog
+        v-if="selectedActivity && enrollmentDialog"
+        v-model="enrollmentDialog"
+        :activity="selectedActivity"
+      />
     </v-card>
   </div>
 </template>
@@ -65,13 +70,20 @@ import RemoteServices from '@/services/RemoteServices';
 import Activity from '@/models/activity/Activity';
 import { show } from 'cli-cursor';
 import Enrollment from '@/models/enrollment/Enrollment';
+import EnrollmentDialog from '@/views/volunteer/EnrollmentDialog.vue';
 
 @Component({
   methods: { show },
+  components: {
+    'enrollment-dialog': EnrollmentDialog,
+  },
 })
+
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
   volunteerEnrollments: Enrollment[] = [];
+  selectedActivity: Activity | null = null;
+  enrollmentDialog: boolean = false;
   search: string = '';
   headers: object = [
     {
@@ -170,6 +182,11 @@ export default class VolunteerActivitiesView extends Vue {
  
   isVolunteerEnrolled(activity: Activity) {
     return this.volunteerEnrollments.some((enrollment) => enrollment.activityId === activity.id);
+  }
+
+  async enrollInActivity(activity: Activity) {
+    this.selectedActivity = activity;
+    this.enrollmentDialog = true;
   }
 }
 </script>
