@@ -26,9 +26,7 @@ public class EnrollmentDto {
         if (deepCopyVolunteer && (enrollment.getVolunteer() != null)) {
             setVolunteer(new UserDto(enrollment.getVolunteer()));
         }
-
     }
-
 
     public Integer getId() {
         return id;

@@ -67,8 +67,9 @@ export default class ActivityDialog extends Vue {
   cypressCondition: boolean = false;
 
   async created() {
-    if (this.enrollment && this.volunteer) {
+    if (this.enrollment && this.volunteer && this.activity) {
       this.newEnrollment = new Enrollment(this.enrollment);
+      this.newEnrollment.activity = new Activity(this.activity);
       this.newEnrollment.volunteer = new Volunteer(this.volunteer);
     }
   }
@@ -79,10 +80,12 @@ export default class ActivityDialog extends Vue {
   }
 
   async enroll() {
-    if ((this.$refs.form as Vue & { validate: () => boolean }).validate() && this.canEnroll && this.newEnrollment?.activity?.id) {
+    if ((this.$refs.form as Vue & { validate: () => boolean }).validate() && this.canEnroll) {
       try {
-        const result = await RemoteServices.createEnrollment(this.newEnrollment.activity.id ,this.newEnrollment);
-        this.$emit('enroll', result);
+        if (this.newEnrollment && this.newEnrollment.activity && this.newEnrollment.activity.id) {
+          const result = await RemoteServices.createEnrollment(this.newEnrollment.activity.id, this.newEnrollment);
+          this.$emit('enroll', result);
+          }
       } catch (error) {
         await this.$store.dispatch('error', error);
       }

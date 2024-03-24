@@ -40,14 +40,14 @@
             </template>
             <span>Report Activity</span>
           </v-tooltip>
-          <v-tooltip bottom>
+          <v-tooltip v-if="isEnrollmentOpen(item) && !isVolunteerEnrolled(item)" bottom>
             <template v-slot:activator="{ on }">
               <v-icon
                   class="mr-2 action-button"
                   color="blue"
                   v-on="on"
                   data-cy="enrollButton"
-                  @click="onEnrollInActivity(item)"
+                  @click="enrollInActivity(item)"
               >fa-solid fa-sign-in</v-icon
               >
             </template>
@@ -87,8 +87,9 @@ import EnrollmentDialog from '@/views/volunteer/EnrollmentDialog.vue';
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
   currentActivity: Activity | null = null;
-  currentEnrollment: Enrollment | null = null;
+  currentEnrollment: Enrollment | null = null
   volunteer: Volunteer | null = null;
+  volunteerEnrollments: Enrollment[] = [];
   enrollmentDialog: boolean = false;
   search: string = '';
   headers: object = [
@@ -160,6 +161,7 @@ export default class VolunteerActivitiesView extends Vue {
     try {
       this.activities = await RemoteServices.getActivities();
       this.volunteer = this.$store.getters.getUser;
+      this.volunteerEnrollments = await RemoteServices.getVolunteerEnrollments();
     } catch (error) {
       await this.$store.dispatch('error', error);
     }
@@ -167,7 +169,7 @@ export default class VolunteerActivitiesView extends Vue {
   }
 
   onCloseEnrollmentDialog() {
-    this.currentEnrollment = null;
+    this.currentActivity = null;
     this.enrollmentDialog = false;
   }
 
@@ -195,6 +197,21 @@ export default class VolunteerActivitiesView extends Vue {
         await this.$store.dispatch('error', error);
       }
     }
+  }
+
+  enrollInActivity(activity: Activity) {
+    this.currentEnrollment = new Enrollment();
+    this.currentActivity = activity;
+    this.enrollmentDialog = true;
+  }
+
+  isEnrollmentOpen(activity: Activity) {
+    // check if current date is before the application deadline
+    return new Date(activity.applicationDeadline) > new Date();
+  }
+ 
+  isVolunteerEnrolled(activity: Activity) {
+    return this.volunteerEnrollments.some((enrollment) => enrollment.activity?.id === activity.id);
   }
 }
 </script>
