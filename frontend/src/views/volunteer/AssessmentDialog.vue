@@ -14,7 +14,7 @@
 
         <v-card-text class="text-left">
           <v-text-field
-              v-model="review"
+              v-model="assessment.review"
               label="*Review"
               data-cy="reviewInput"
               required
@@ -52,7 +52,6 @@ import Institution from '@/models/institution/Institution';
 export default class AssessmentDialog extends Vue {
   @Model('dialog', Boolean) dialog!: boolean;
 
-  review: string = '';
   @Prop({ type: Object, required: true }) readonly institution!: Institution;
   @Prop({ type: Object, required: true }) readonly volunteer!: Volunteer;
 
@@ -65,7 +64,20 @@ export default class AssessmentDialog extends Vue {
   }
 
   async save() {
-    // TODO: trabalha malandro
+    if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
+      try {
+        if (this.assessment && this.assessment.institutionId) {
+          const result = await RemoteServices.createAssessment(
+              this.$store.getters.getUser.id,
+              this.assessment.institutionId,
+              this.assessment,
+          );
+          this.$emit('save-assessment', result);
+        }
+      } catch (error) {
+        await this.$store.dispatch('error', error);
+      }
+    }
   }
 }
 </script>

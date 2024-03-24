@@ -6,13 +6,13 @@ import router from '@/router';
 import User from '@/models/user/User';
 import Institution from '@/models/institution/Institution';
 import Activity from '@/models/activity/Activity';
+import Assessment from '@/models/assessment/Assessment';
 import RegisterInstitution from '@/models/institution/RegisterInstitution';
 import RegisterVolunteer from '@/models/volunteer/RegisterVolunteer';
 import RegisterMember from '@/models/member/RegisterMember';
 import AuthPasswordDto from '@/models/user/AuthPasswordDto';
 import Theme from '@/models/theme/Theme';
 import Enrollment from '@/models/enrollment/Enrollment';
-import Assessment from '@/models/assessment/Assessment';
 import Participation from "@/models/participation/Participation";
 import Volunteer from '@/models/volunteer/Volunteer';
 
@@ -499,6 +499,18 @@ export default class RemoteServices {
   }
 
   // Assessment Controller
+
+  static async createAssessment(userId: number, institutionId: number,
+                                assessment: Assessment) {
+    return httpClient
+        .post(`institutions/${institutionId}/assessments`, assessment)
+        .then((response) => {
+          return new Assessment(response.data);
+        })
+        .catch(async (error) => {
+          throw Error(await this.errorMessage(error));
+        });
+  }
 
   static async getInstitutionAssessments(
     institutionId: number | null,

@@ -54,11 +54,12 @@
         </template>
       </v-data-table>
       <assessment-dialog
-          v-if="assessInstitutionDialog"
+          v-if="institution && assessInstitutionDialog"
           v-model="assessInstitutionDialog"
           :institution="institution"
           :volunteer="volunteer"
           v-on:close-assessment-dialog="onCloseAssessmentDialog"
+          v-on:save-assessment="onSaveAssessment"
       />
 
     </v-card>
@@ -190,6 +191,14 @@ export default class VolunteerActivitiesView extends Vue {
     this.institution = null;
   }
 
+  async onSaveAssessment(assessment: Assessment) {
+    this.assessments = this.assessments.filter(
+        (a) => a.id !== assessment.id,
+    );
+    this.assessments.unshift(assessment);
+    this.assessInstitutionDialog = false;
+    this.institution = null;
+  }
 
   assessInstitution(activity: Activity) {
     this.assessInstitutionDialog = true;
