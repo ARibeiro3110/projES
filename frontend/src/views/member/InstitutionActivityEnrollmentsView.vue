@@ -48,8 +48,8 @@
     <participation-selection-dialog
       v-if="selectParticipantDialog"
       v-model="selectParticipantDialog"
-      :enrollment="selectedEnrollment"
-      :activity="activity"
+      :enrollmentVolunteerId="enrollmentVolunteerId"
+      :activityId="activityId"
       v-on:close-participation-selection-dialog="onCloseParticipationSelectionDialog"
       />
   </v-card>
@@ -73,7 +73,8 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
   search: string = '';
 
   selectParticipantDialog: boolean = false;
-  selectedEnrollment: Enrollment | null = null;
+  enrollmentVolunteerId: number | null = null;
+  activityId: number | null = null;
 
   headers: object = [
     {
@@ -112,6 +113,7 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
   async created() {
     this.activity = this.$store.getters.getActivity;
     if (this.activity !== null && this.activity.id !== null) {
+      this.activityId = this.activity.id;
       await this.$store.dispatch('loading');
       try {
         this.enrollments = await RemoteServices.getActivityEnrollments(
@@ -125,13 +127,13 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
   }
 
   selectParticipant(enrollment: Enrollment) {
-    this.selectedEnrollment = enrollment;
+    this.enrollmentVolunteerId = enrollment.volunteer.id; 
     this.selectParticipantDialog = true;
   }
 
   onCloseParticipationSelectionDialog() {
     this.selectParticipantDialog = false;
-    this.selectedEnrollment = null;
+    this.enrollmentVolunteerId = null;
   }
 
   async getActivities() {

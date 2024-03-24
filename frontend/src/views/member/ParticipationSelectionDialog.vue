@@ -30,22 +30,21 @@
 </template>
 
 <script lang="ts">
-import Activity from '@/models/activity/Activity';
-import Enrollment from '@/models/enrollment/Enrollment';
 import Participation from '@/models/participation/Participation';
 import { Component, Vue, Model, Prop } from 'vue-property-decorator';
 
 @Component({})
 export default class ParticipationSelectionDialog extends Vue {
   @Model('dialog', Boolean) dialog!: boolean;
-  @Prop({ type: Object, required: true }) readonly enrollment!: Enrollment;
-  @Prop({ type: Object, required: true }) readonly activity!: Activity;
+  @Prop({ type: Number, required: true }) readonly enrollmentVolunteerId!: number;
+  @Prop({ type: Number, required: true }) readonly activityId!: number;
 
   participation: Participation = new Participation();
 
   async created(){
-    this.participation.volunteerId = this.enrollment.volunteer.id;
-    this.participation.activityId = this.activity.id;
+    this.participation = new Participation();
+    this.participation.volunteerId = this.enrollmentVolunteerId;
+    this.participation.activityId = this.activityId;
   }
 }
 </script>
