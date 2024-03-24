@@ -2,6 +2,7 @@ import { ISOtoString } from '@/services/ConvertDateService';
 import Theme from '@/models/theme/Theme';
 import Enrollment from '@/models/enrollment/Enrollment';
 import Institution from '@/models/institution/Institution';
+import Participation from '../participation/Participation';
 
 export default class Activity {
   id: number | null = null;
@@ -20,6 +21,8 @@ export default class Activity {
   formattedEndingDate!: string;
   applicationDeadline!: string;
   formattedApplicationDeadline!: string;
+  participations: Participation[] = [];
+  participationsNumber!: number;
   numberOfEnrollments!: number;
 
   constructor(jsonObj?: Activity) {
@@ -46,6 +49,8 @@ export default class Activity {
         this.formattedApplicationDeadline = ISOtoString(
           jsonObj.applicationDeadline,
         );
+      this.participations = jsonObj.participations;
+      this.participationsNumber = jsonObj.participations.length;
       this.numberOfEnrollments = jsonObj.numberOfEnrollments;
     }
   }
