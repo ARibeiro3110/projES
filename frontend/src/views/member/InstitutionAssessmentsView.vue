@@ -19,6 +19,9 @@
           />
         </v-card-title>
       </template>
+        <template v-slot:[`item.volunteer`]="{ item }">
+          {{ item.volunteerName }}
+        </template>
     </v-data-table>
   </v-card>
 </template>
@@ -41,6 +44,12 @@ export default class InstitutionAssessmentsView extends Vue {
       value: 'review',
       align: 'left',
       width: '30%',
+    },
+    {
+      text: 'Volunteer',
+      value: 'volunteer',
+      align: 'left',
+      width: '5%',
     },
     {
       text: 'Review Date',
