@@ -31,6 +31,7 @@
           Close
         </v-btn>
         <v-btn
+            v-if="canEnroll"
             color="blue-darken-1"
             variant="text"
             @click="enroll"
@@ -71,12 +72,13 @@ export default class ActivityDialog extends Vue {
       this.newEnrollment = new Enrollment(this.enrollment);
       this.newEnrollment.activity = new Activity(this.activity);
       this.newEnrollment.volunteer = new Volunteer(this.volunteer);
+      this.newEnrollment.motivation = '';
     }
   }
 
   get canEnroll(): boolean {
-    // TODO: only allow saving if all required fields are filled and conditions are met
-    return true;
+    // check if motivation has at least 10 characters
+    return this.newEnrollment.motivation !== null && this.newEnrollment.motivation.length >= 10;
   }
 
   async enroll() {
