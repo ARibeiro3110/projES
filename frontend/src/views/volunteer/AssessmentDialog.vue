@@ -7,7 +7,7 @@
       max-height="80%"
   >
     <v-card>
-      <v-form>
+      <v-form ref="form" lazy validation>
         <v-card-title>
           <span class="headline">New Assessment </span>
         </v-card-title>
@@ -17,6 +17,8 @@
               v-model="assessment.review"
               label="*Review"
               data-cy="reviewInput"
+              :rules="[(v) => !!v || 'Review is required',
+              (v) => isSaveValid() || 'Review must have at least 10 characters']"
               required
           />
         </v-card-text>
@@ -29,6 +31,7 @@
           >Close</v-btn
           >
           <v-btn
+              v-if="isSaveValid()"
               @click="save" data-cy="saveButton"
           >Save</v-btn
           >
@@ -61,6 +64,7 @@ export default class AssessmentDialog extends Vue {
     this.assessment = new Assessment();
     this.assessment.institutionId = this.institution.id;
     this.assessment.volunteerId = this.volunteer.id;
+    this.assessment.review = '';
   }
 
   async save() {
@@ -78,6 +82,10 @@ export default class AssessmentDialog extends Vue {
         await this.$store.dispatch('error', error);
       }
     }
+  }
+
+  isSaveValid() {
+    return this.assessment.review.length > 9;
   }
 }
 </script>
