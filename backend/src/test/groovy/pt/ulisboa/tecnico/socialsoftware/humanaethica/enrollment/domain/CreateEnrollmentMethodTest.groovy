@@ -19,12 +19,12 @@ class CreateEnrollmentMethodTest extends SpockTest {
     Volunteer volunteer = Mock()
     Volunteer otherVolunteer = Mock()
     Enrollment otherEnrollment = Mock()
-    def enrolmentDto
+    def enrollmentDto
 
     def setup() {
-        given: "enrolment info"
-        enrolmentDto = new EnrollmentDto()
-        enrolmentDto.motivation = ENROLLMENT_MOTIVATION_1
+        given: "enrollment info"
+        enrollmentDto = new EnrollmentDto()
+        enrollmentDto.motivation = ENROLLMENT_MOTIVATION_1
     }
 
     def "create enrollment"() {
@@ -34,7 +34,7 @@ class CreateEnrollmentMethodTest extends SpockTest {
         otherEnrollment.getVolunteer() >> otherVolunteer
 
         when:
-        def result = new Enrollment(activity, volunteer, enrolmentDto)
+        def result = new Enrollment(activity, volunteer, enrollmentDto)
 
         then: "checks results"
         result.motivation == ENROLLMENT_MOTIVATION_1
@@ -53,10 +53,10 @@ class CreateEnrollmentMethodTest extends SpockTest {
         activity.getApplicationDeadline() >> IN_ONE_DAY
         otherEnrollment.getVolunteer() >> otherVolunteer
         and:
-        enrolmentDto.motivation = motivation
+        enrollmentDto.motivation = motivation
 
         when:
-        new Enrollment(activity, volunteer, enrolmentDto)
+        new Enrollment(activity, volunteer, enrollmentDto)
 
         then:
         def error = thrown(HEException)
@@ -75,10 +75,10 @@ class CreateEnrollmentMethodTest extends SpockTest {
         activity.getApplicationDeadline() >> ONE_DAY_AGO
         otherEnrollment.getVolunteer() >> otherVolunteer
         and:
-        enrolmentDto.motivation = ENROLLMENT_MOTIVATION_1
+        enrollmentDto.motivation = ENROLLMENT_MOTIVATION_1
 
         when:
-        new Enrollment(activity, volunteer, enrolmentDto)
+        new Enrollment(activity, volunteer, enrollmentDto)
 
         then:
         def error = thrown(HEException)
@@ -91,10 +91,10 @@ class CreateEnrollmentMethodTest extends SpockTest {
         activity.getApplicationDeadline() >> IN_ONE_DAY
         otherEnrollment.getVolunteer() >> volunteer
         and:
-        enrolmentDto.motivation = ENROLLMENT_MOTIVATION_1
+        enrollmentDto.motivation = ENROLLMENT_MOTIVATION_1
 
         when:
-        new Enrollment(activity, volunteer, enrolmentDto)
+        new Enrollment(activity, volunteer, enrollmentDto)
 
         then:
         def error = thrown(HEException)
