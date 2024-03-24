@@ -32,8 +32,8 @@ public class EnrollmentService {
         activityRepository.findById(activityId).orElseThrow(() -> new HEException(ACTIVITY_NOT_FOUND, activityId));
 
         return enrollmentRepository.getEnrollmentsByActivityId(activityId).stream()
-                .sorted(Comparator.comparing(Enrollment::getEnrollmentDateTime))
-                .map(EnrollmentDto::new)
+                .sorted(Comparator.comparing(e -> e.getEnrollmentDateTime()))
+                .map(enrollment -> new EnrollmentDto(enrollment, false, false))
                 .toList();
     }
 
@@ -43,7 +43,7 @@ public class EnrollmentService {
 
         return enrollmentRepository.getEnrollmentsForVolunteerId(userId).stream()
                 .sorted(Comparator.comparing(Enrollment::getEnrollmentDateTime))
-                .map(EnrollmentDto::new)
+                .map(enrollment -> new EnrollmentDto(enrollment, false, false))
                 .toList();
     }
 
@@ -60,6 +60,6 @@ public class EnrollmentService {
         Enrollment enrollment = new Enrollment(activity, volunteer, enrollmentDto);
         enrollmentRepository.save(enrollment);
 
-        return new EnrollmentDto(enrollment);
+        return new EnrollmentDto(enrollment, false, false);
     }
 }

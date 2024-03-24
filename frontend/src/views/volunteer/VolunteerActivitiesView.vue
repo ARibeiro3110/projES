@@ -47,7 +47,7 @@
                   color="blue"
                   v-on="on"
                   data-cy="enrollButton"
-                  @click="enrollInActivity(item)"
+                  @click="onEnrollInActivity(item)"
               >fa-solid fa-sign-in</v-icon
               >
             </template>
@@ -56,9 +56,13 @@
         </template>
       </v-data-table>
       <enrollment-dialog
-        v-if="selectedActivity && enrollmentDialog"
+        v-if="currentEnrollment && enrollmentDialog"
         v-model="enrollmentDialog"
-        :activity="selectedActivity"
+        v-on:close-enrollment-dialog="onCloseEnrollmentDialog"
+        v-on:enroll="onEnrollInActivity"
+        :enrollment="currentEnrollment"
+        :volunteer="volunteer"
+        :activity="currentActivity"
       />
     </v-card>
   </div>
@@ -67,7 +71,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import RemoteServices from '@/services/RemoteServices';
+import Enrollment from '@/models/enrollment/Enrollment';
 import Activity from '@/models/activity/Activity';
+import Volunteer from '@/models/volunteer/Volunteer';
 import { show } from 'cli-cursor';
 import EnrollmentDialog from '@/views/volunteer/EnrollmentDialog.vue';
 
@@ -80,7 +86,9 @@ import EnrollmentDialog from '@/views/volunteer/EnrollmentDialog.vue';
 
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
-  selectedActivity: Activity | null = null;
+  currentActivity: Activity | null = null;
+  currentEnrollment: Enrollment | null = null;
+  volunteer: Volunteer | null = null;
   enrollmentDialog: boolean = false;
   search: string = '';
   headers: object = [
@@ -151,10 +159,27 @@ export default class VolunteerActivitiesView extends Vue {
     await this.$store.dispatch('loading');
     try {
       this.activities = await RemoteServices.getActivities();
+      this.volunteer = this.$store.getters.getUser;
     } catch (error) {
       await this.$store.dispatch('error', error);
     }
     await this.$store.dispatch('clearLoading');
+  }
+
+  onCloseEnrollmentDialog() {
+    this.currentEnrollment = null;
+    this.enrollmentDialog = false;
+  }
+
+  async onEnrollInActivity(newEnrollment: Enrollment) {
+    if (this.currentActivity) {
+      this.currentActivity.enrollments = this.currentActivity.enrollments.filter(
+          (e) => e.activity?.id !== newEnrollment.activity?.id,
+      ) ?? [];
+      this.currentActivity.enrollments.unshift(newEnrollment);
+      this.enrollmentDialog = false;
+      this.currentEnrollment = null;
+    }
   }
 
   async reportActivity(activity: Activity) {
@@ -170,11 +195,6 @@ export default class VolunteerActivitiesView extends Vue {
         await this.$store.dispatch('error', error);
       }
     }
-  }
-
-  async enrollInActivity(activity: Activity) {
-    this.selectedActivity = activity;
-    this.enrollmentDialog = true;
   }
 }
 </script>

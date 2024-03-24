@@ -1,5 +1,6 @@
 import { ISOtoString } from '@/services/ConvertDateService';
 import Theme from '@/models/theme/Theme';
+import Enrollment from '@/models/enrollment/Enrollment';
 import Institution from '@/models/institution/Institution';
 
 export default class Activity {
@@ -8,6 +9,7 @@ export default class Activity {
   region!: string;
   participantsNumberLimit!: number;
   themes: Theme[] = [];
+  enrollments: Enrollment[] = [];
   institution!: Institution;
   state!: string;
   creationDate!: string;
