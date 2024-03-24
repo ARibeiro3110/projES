@@ -45,6 +45,7 @@
 <script lang="ts">
 import { Vue, Component, Prop, Model } from 'vue-property-decorator';
 import Activity from '@/models/activity/Activity';
+import Volunteer from '@/models/volunteer/Volunteer';
 import Enrollment from '@/models/enrollment/Enrollment';
 import RemoteServices from '@/services/RemoteServices';
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
@@ -57,6 +58,8 @@ Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
 })
 export default class ActivityDialog extends Vue {
   @Model('dialog', Boolean) dialog!: boolean;
+  @Prop({ type: Enrollment, required: true }) readonly enrollment!: Enrollment;
+  @Prop({ type: Volunteer, required: true }) readonly volunteer!: Volunteer;
   @Prop({ type: Activity, required: true }) readonly activity!: Activity;
 
   newEnrollment: Enrollment = new Enrollment();
@@ -64,16 +67,26 @@ export default class ActivityDialog extends Vue {
   cypressCondition: boolean = false;
 
   async created() {
-    this.newEnrollment = new Enrollment();
+    if (this.enrollment && this.volunteer) {
+      this.newEnrollment = new Enrollment(this.enrollment);
+      this.newEnrollment.volunteer = new Volunteer(this.volunteer);
+    }
   }
 
-  get canSave(): boolean {
-    // TODO
+  get canEnroll(): boolean {
+    // TODO: only allow saving if all required fields are filled and conditions are met
     return true;
   }
 
   async enroll() {
-    // TODO
+    if ((this.$refs.form as Vue & { validate: () => boolean }).validate() && this.canEnroll && this.newEnrollment?.activity?.id) {
+      try {
+        const result = await RemoteServices.createEnrollment(this.newEnrollment.activity.id ,this.newEnrollment);
+        this.$emit('enroll', result);
+      } catch (error) {
+        await this.$store.dispatch('error', error);
+      }
+    }
   }
 }
 </script>

@@ -59,7 +59,7 @@
                   color="blue"
                   v-on="on"
                   data-cy="enrollButton"
-                  @click="enrollInActivity(item)"
+                  @click="onEnrollInActivity(item)"
               >fa-solid fa-sign-in</v-icon
               >
             </template>
@@ -76,9 +76,13 @@
           v-on:save-assessment="onSaveAssessment"
       />
       <enrollment-dialog
-        v-if="selectedActivity && enrollmentDialog"
+        v-if="currentEnrollment && enrollmentDialog"
         v-model="enrollmentDialog"
-        :activity="selectedActivity"
+        v-on:close-enrollment-dialog="onCloseEnrollmentDialog"
+        v-on:enroll="onEnrollInActivity"
+        :enrollment="currentEnrollment"
+        :volunteer="volunteer"
+        :activity="currentActivity"
       />
     </v-card>
   </div>
@@ -87,12 +91,13 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import RemoteServices from '@/services/RemoteServices';
+import Enrollment from '@/models/enrollment/Enrollment';
 import Activity from '@/models/activity/Activity';
 import Participation from '@/models/participation/Participation';
 import Assessment from '@/models/assessment/Assessment';
+import Volunteer from '@/models/volunteer/Volunteer';
 import { show } from 'cli-cursor';
 import Institution from '@/models/institution/Institution';
-import Volunteer from '@/models/volunteer/Volunteer';
 import AssessmentDialog from '@/views/volunteer/AssessmentDialog.vue';
 import EnrollmentDialog from '@/views/volunteer/EnrollmentDialog.vue';
 
@@ -108,7 +113,9 @@ export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
   assessments: Assessment[] = [];
   participations: Participation[] = [];
-  selectedActivity: Activity | null = null;
+  currentActivity: Activity | null = null;
+  currentEnrollment: Enrollment | null = null;
+  volunteer: Volunteer | null = null;
   enrollmentDialog: boolean = false;
   search: string = '';
 
@@ -193,6 +200,22 @@ export default class VolunteerActivitiesView extends Vue {
     await this.$store.dispatch('clearLoading');
   }
 
+  onCloseEnrollmentDialog() {
+    this.currentEnrollment = null;
+    this.enrollmentDialog = false;
+  }
+
+  async onEnrollInActivity(newEnrollment: Enrollment) {
+    if (this.currentActivity) {
+      this.currentActivity.enrollments = this.currentActivity.enrollments.filter(
+          (e) => e.activity?.id !== newEnrollment.activity?.id,
+      ) ?? [];
+      this.currentActivity.enrollments.unshift(newEnrollment);
+      this.enrollmentDialog = false;
+      this.currentEnrollment = null;
+    }
+  }
+
   async reportActivity(activity: Activity) {
     if (activity.id !== null) {
       try {
@@ -247,7 +270,7 @@ export default class VolunteerActivitiesView extends Vue {
   }
   
   async enrollInActivity(activity: Activity) {
-    this.selectedActivity = activity;
+    this.currentActivity = activity;
     this.enrollmentDialog = true;
   }
 }

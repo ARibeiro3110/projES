@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.dto.InstitutionDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.dto.ThemeDto;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto.EnrollmentDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class ActivityDto {
     private String state;
     private String creationDate;
     private List<ThemeDto> themes;
+    private List<EnrollmentDto> enrollments;
     private InstitutionDto institution;
 
     public ActivityDto(){
@@ -33,6 +35,10 @@ public class ActivityDto {
 
         this.themes = activity.getThemes().stream()
                 .map(theme->new ThemeDto(theme,false, true, false))
+                .toList();
+
+        this.enrollments = activity.getEnrollments().stream()
+                .map(enrollment->new EnrollmentDto(enrollment, false, false))
                 .toList();
 
         setState(activity.getState().name());
@@ -53,6 +59,14 @@ public class ActivityDto {
 
     public List<ThemeDto> getThemes() {
         return themes;
+    }
+
+    public List<EnrollmentDto> getEnrollments() {
+        return enrollments;
+    }
+
+    public void setEnrollments(List<EnrollmentDto> enrollments) {
+        this.enrollments = enrollments;
     }
 
     public Integer getId() {
