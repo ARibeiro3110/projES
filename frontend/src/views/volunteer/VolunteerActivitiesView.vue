@@ -179,8 +179,8 @@ export default class VolunteerActivitiesView extends Vue {
   }
 
   hasVolunteerAssessed(activity: Activity) {
-    return this.assessments.institutionId.some(institutionId =>
-        activity.institution.id === institutionId
+    return this.assessments.some(assessment =>
+        activity.institution.id === assessment.institutionId
     );
   }
 
