@@ -44,7 +44,7 @@
             <template v-slot:activator="{ on }">
               <v-icon
                   class="mr-2 action-button"
-                  @click="reviewInstitution(item)"
+                  @click="assessInstitution(item)"
                   v-on="on"
               >rate_review
               </v-icon>
@@ -53,6 +53,14 @@
           </v-tooltip>
         </template>
       </v-data-table>
+      <assessment-dialog
+          v-if="assessInstitutionDialog"
+          v-model="assessInstitutionDialog"
+          :institution="institution"
+          :volunteer="volunteer"
+          v-on:close-assessment-dialog="onCloseAssessmentDialog"
+      />
+
     </v-card>
   </div>
 </template>
@@ -64,9 +72,16 @@ import Activity from '@/models/activity/Activity';
 import Participation from '@/models/participation/Participation';
 import Assessment from '@/models/assessment/Assessment';
 import { show } from 'cli-cursor';
+import Institution from '@/models/institution/Institution';
+import Volunteer from '@/models/volunteer/Volunteer';
+import AssessmentDialog from '@/views/volunteer/AssessmentDialog.vue';
 
 @Component({
   methods: { show },
+  components: {
+    'assessment-dialog': AssessmentDialog,
+  }
+
 })
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
@@ -74,7 +89,9 @@ export default class VolunteerActivitiesView extends Vue {
   participations: Participation[] = [];
   search: string = '';
 
-  reviewInstitutionDialog: boolean = false;
+  institution: Institution | null = null;
+  volunteer: Volunteer | null = null;
+  assessInstitutionDialog: boolean = false;
 
   headers: object = [
     {
@@ -146,6 +163,7 @@ export default class VolunteerActivitiesView extends Vue {
       this.activities = await RemoteServices.getActivities();
       this.assessments = await RemoteServices.getVolunteerAssessments();
       this.participations = await RemoteServices.getParticipationsByVolunteer();
+      this.volunteer = this.$store.getters.getUser;
     } catch (error) {
       await this.$store.dispatch('error', error);
     }
@@ -167,8 +185,15 @@ export default class VolunteerActivitiesView extends Vue {
     }
   }
 
-  reviewInstitution(activity: Activity) {
-    this.reviewInstitutionDialog = true;
+  onCloseAssessmentDialog() {
+    this.assessInstitutionDialog = false;
+    this.institution = null;
+  }
+
+
+  assessInstitution(activity: Activity) {
+    this.assessInstitutionDialog = true;
+    this.institution = activity.institution;
   }
 
   isActivityFinished(activity: Activity) {

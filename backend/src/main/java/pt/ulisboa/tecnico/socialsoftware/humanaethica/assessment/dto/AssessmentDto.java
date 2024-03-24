@@ -11,7 +11,7 @@ public class AssessmentDto {
     private String review;
     private String reviewDate;
     private Integer institutionId;
-
+    private Integer volunteerId;
 
     public AssessmentDto() {}
 
@@ -20,6 +20,7 @@ public class AssessmentDto {
         this.review = assessment.getReview();
         this.reviewDate = DateHandler.toISOString(assessment.getReviewDate());
         this.institutionId = assessment.getInstitution().getId();
+        this.volunteerId = assessment.getVolunteer().getId();
     }
 
     public Integer getId() {
