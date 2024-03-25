@@ -44,6 +44,7 @@
             <template v-slot:activator="{ on }">
               <v-icon
                   class="mr-2 action-button"
+                  data-cy="assessButton"
                   @click="assessInstitution(item)"
                   v-on="on"
               >rate_review
