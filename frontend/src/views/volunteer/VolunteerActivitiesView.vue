@@ -176,7 +176,7 @@ export default class VolunteerActivitiesView extends Vue {
   async onEnrollInActivity(newEnrollment: Enrollment) {
     if (this.currentActivity) {
       this.currentActivity.enrollments = this.currentActivity.enrollments.filter(
-          (e) => e.activity?.id !== newEnrollment.activity?.id,
+          (e) => e.activityId !== newEnrollment.activityId,
       ) ?? [];
       this.currentActivity.enrollments.unshift(newEnrollment);
       this.enrollmentDialog = false;
@@ -211,7 +211,7 @@ export default class VolunteerActivitiesView extends Vue {
   }
  
   isVolunteerEnrolled(activity: Activity) {
-    return this.volunteerEnrollments.some((enrollment) => enrollment.activity?.id === activity.id);
+    return this.volunteerEnrollments.some((e) => e.activityId === activity.id);
   }
 }
 </script>

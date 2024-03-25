@@ -1,16 +1,14 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto;
 
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.domain.Enrollment;
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.dto.UserDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
 public class EnrollmentDto {
     private Integer id;
     private String motivation;
     private String enrollmentDateTime;
-    private ActivityDto activity;
-    private UserDto volunteer;
+    private Integer activityId;
+    private Integer volunteerId;
 
     public EnrollmentDto() {}
 
@@ -18,14 +16,8 @@ public class EnrollmentDto {
         setId(enrollment.getId());
         setMotivation(enrollment.getMotivation());
         setEnrollmentDateTime(DateHandler.toISOString(enrollment.getEnrollmentDateTime()));
-
-        if (deepCopyActivity && (enrollment.getActivity() != null)) {
-            setActivity(new ActivityDto(enrollment.getActivity(), false));
-        }
-
-        if (deepCopyVolunteer && (enrollment.getVolunteer() != null)) {
-            setVolunteer(new UserDto(enrollment.getVolunteer()));
-        }
+        setActivityId(enrollment.getActivity().getId());
+        setVolunteerId(enrollment.getVolunteer().getId());
     }
 
     public Integer getId() {
@@ -52,19 +44,19 @@ public class EnrollmentDto {
         this.enrollmentDateTime = enrollmentDateTime;
     }
 
-    public ActivityDto getActivity() {
-        return activity;
+    public Integer getActivityId() {
+        return activityId;
     }
 
-    public void setActivity(ActivityDto activity) {
-        this.activity = activity;
+    public void setActivityId(Integer activityId) {
+        this.activityId = activityId;
     }
 
-    public UserDto getVolunteer() {
-        return volunteer;
+    public Integer getVolunteerId() {
+        return volunteerId;
     }
 
-    public void setVolunteer(UserDto volunteer) {
-        this.volunteer = volunteer;
+    public void setVolunteerId(Integer volunteerId) {
+        this.volunteerId = volunteerId;
     }
 }

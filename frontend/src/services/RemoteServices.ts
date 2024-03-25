@@ -494,7 +494,7 @@ export default class RemoteServices {
       });
   }
 
-  static async getVolunteerEnrollments() {
+  static async getVolunteerEnrollments(): Promise<Enrollment[]> {
     return httpClient
       .get('/enrollments/volunteer')
       .then((response) => {
@@ -525,7 +525,7 @@ export default class RemoteServices {
   }
 
   // Theme Controller
-
+ 
   static async getThemes(): Promise<Theme[]> {
     return httpClient
       .get('/themes')

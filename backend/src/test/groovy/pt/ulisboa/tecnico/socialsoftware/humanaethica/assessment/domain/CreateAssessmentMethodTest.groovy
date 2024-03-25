@@ -24,7 +24,7 @@ class CreateAssessmentMethodTest extends SpockTest {
     def assessmentDto
 
     def setup() {
-        given: "enrolment info"
+        given: "enrollment info"
         assessmentDto = new AssessmentDto()
         assessmentDto.review = ASSESSMENT_REVIEW_1
     }
