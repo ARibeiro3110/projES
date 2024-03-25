@@ -2,7 +2,7 @@ import { ISOtoString } from '@/services/ConvertDateService';
 import Theme from '@/models/theme/Theme';
 import Enrollment from '@/models/enrollment/Enrollment';
 import Institution from '@/models/institution/Institution';
-import Participation from '../participation/Participation';
+import Participation from '@/models/participation/Participation';
 
 export default class Activity {
   id: number | null = null;

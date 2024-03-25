@@ -32,7 +32,7 @@
         {{ item.volunteer.name }}
       </template>
       <template v-slot:[`item.action`]="{ item }">
-        <v-tooltip bottom>
+        <v-tooltip v-if="isVolunteerInActivity(item) && isNumberOfParticipantsValid()" bottom>
           <template v-slot:activator="{ on }">
             <v-icon
               class="mr-2 action-button"
@@ -139,6 +139,17 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
   async getActivities() {
     await this.$store.dispatch('setActivity', null);
     this.$router.push({ name: 'institution-activities' }).catch(() => {});
+  }
+
+  isVolunteerInActivity(enrollment: Enrollment) {
+    if (enrollment.volunteer.id === null) {
+      return false;
+    }
+    return enrollment.volunteer.id in this.activity.participations.map((p) => p.volunteerId);
+  }
+
+  isNumberOfParticipantsValid() {
+    return this.activity.participations.length <= this.activity.participantsNumberLimit;
   }
 }
 </script>
