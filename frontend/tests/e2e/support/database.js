@@ -132,7 +132,7 @@ Cypress.Commands.add('createDemoEntities', () => {
 
 Cypress.Commands.add('createEnrollmentDemoEntities', () => {
   cy.task('queryDatabase', {
-    query: "INSERT_INTO" + INSTITUTION_COLUMNS + generateInstitutionTuple(1),
+    query: "INSERT_INTO " + INSTITUTION_COLUMNS + generateInstitutionTuple(1),
     credentials: credentials,
   })
   cy.task('queryDatabase',  {
