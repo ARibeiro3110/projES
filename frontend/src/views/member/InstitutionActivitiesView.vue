@@ -110,7 +110,7 @@ export default class InstitutionActivitiesView extends Vue {
     },
     {
       text: 'Participations',
-      value: 'participationsNumber',
+      value: 'numberOfParticipations',
       align: 'left',
       width: '5%',
     },

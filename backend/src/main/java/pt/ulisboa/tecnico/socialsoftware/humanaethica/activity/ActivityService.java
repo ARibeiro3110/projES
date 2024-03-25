@@ -39,7 +39,7 @@ public class ActivityService {
         return activityRepository.findAll().stream()
                 .map(activity -> {
                     ActivityDto activityDto = new ActivityDto(activity,true);
-                    activityDto.setParticipationsNumber(activity.getParticipations().size());
+                    activityDto.setNumberOfParticipations(activity.getParticipations().size());
                     return activityDto;
                 })
                 .sorted(Comparator.comparing(ActivityDto::getName, String.CASE_INSENSITIVE_ORDER))

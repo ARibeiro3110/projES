@@ -22,7 +22,7 @@ export default class Activity {
   applicationDeadline!: string;
   formattedApplicationDeadline!: string;
   participations: Participation[] = [];
-  participationsNumber!: number;
+  numberOfParticipations!: number;
   numberOfEnrollments!: number;
 
   constructor(jsonObj?: Activity) {
@@ -50,7 +50,7 @@ export default class Activity {
           jsonObj.applicationDeadline,
         );
       this.participations = jsonObj.participations;
-      this.participationsNumber = jsonObj.participationsNumber;
+      this.numberOfParticipations = jsonObj.numberOfParticipations;
       this.numberOfEnrollments = jsonObj.numberOfEnrollments;
     }
   }
