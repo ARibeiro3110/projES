@@ -148,7 +148,7 @@ Cypress.Commands.add('createEnrollmentDemoEntities', () => {
     credentials: credentials,
   })
   cy.task('queryDatabase',  {
-    query: "INSERT INTO " + AUTH_USERS_COLUMNS + generateAuthVolunteerTuple(3, "DEMO", "demo-volunteer", 3),
+    query: "INSERT INTO " + AUTH_USERS_COLUMNS + generateAuthUserTuple(3, "DEMO", "demo-volunteer", 3),
     credentials: credentials,
   })
   cy.task('queryDatabase', {
