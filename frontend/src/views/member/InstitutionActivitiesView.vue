@@ -53,6 +53,9 @@
           <span>Show Applications</span>
         </v-tooltip>
       </template>
+      <template v-slot:[`item.numberOfEnrollments`]="{ item }">
+        {{ item.numberOfEnrollments }}
+      </template>
     </v-data-table>
     <activity-dialog
       v-if="currentActivity && editActivityDialog"
@@ -154,6 +157,12 @@ export default class InstitutionActivitiesView extends Vue {
       sortable: false,
       width: '5%',
     },
+    {
+      text: 'Applications',
+      value: 'numberOfEnrollments',
+      align: 'left',
+      width: '5%',
+    }
   ];
 
   async created() {
