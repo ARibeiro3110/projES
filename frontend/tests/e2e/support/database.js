@@ -24,25 +24,25 @@ const dayBeforeYesterday = new Date(now);
 dayBeforeYesterday.setDate(now.getDate() - 2);
 
 const activityQueries = [
-  "INSERT_INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(1, "Same institution is enrolled and participates", "A1", 1),
-  "INSERT_INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(2, "Same institution is enrolled and participates", "A2", 1),
-  "INSERT_INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(3, "Same institution is enrolled and does not participate", "A3", 1),
-  "INSERT_INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(4, "Same institution is not enrolled", "A4", 1),
-  "INSERT_INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(5, "Same institution before end date", "A5", 1),
-  "INSERT_INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(6, "Other institution is enrolled and participates", "A6", 2),
+  "INSERT INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(1, "Same institution is enrolled and participates", "A1", 1, 1),
+  "INSERT INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(2, "Same institution is enrolled and participates", "A2", 1, 1),
+  "INSERT INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(3, "Same institution is enrolled and does not participate", "A3", 2, 1),
+  "INSERT INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(4, "Same institution is not enrolled", "A4", 2, 1),
+  "INSERT INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(5, "Same institution before end date", "A5", 2, 1),
+  "INSERT INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(6, "Other institution is enrolled and participates", "A6", 3, 2),
 ];
 
 const enrollmentQueries = [
-  "INSERT_INTO " + ENROLLMENT_COLUMNS + generateAssessmentEnrollmentTuple(1, 1, 3 ),
-  "INSERT_INTO " + ENROLLMENT_COLUMNS + generateAssessmentEnrollmentTuple(2, 2, 3 ),
-  "INSERT_INTO " + ENROLLMENT_COLUMNS + generateAssessmentEnrollmentTuple(3, 3, 3 ),
-  "INSERT_INTO " + ENROLLMENT_COLUMNS + generateAssessmentEnrollmentTuple(4, 6, 3 ),
+  "INSERT INTO " + ENROLLMENT_COLUMNS + generateAssessmentEnrollmentTuple(1, 1, 3 ),
+  "INSERT INTO " + ENROLLMENT_COLUMNS + generateAssessmentEnrollmentTuple(2, 2, 3 ),
+  "INSERT INTO " + ENROLLMENT_COLUMNS + generateAssessmentEnrollmentTuple(3, 3, 3 ),
+  "INSERT INTO " + ENROLLMENT_COLUMNS + generateAssessmentEnrollmentTuple(4, 6, 3 ),
 ];
 
 const participationQueries = [
-    "INSERT_INTO " + PARTICIPATION_COLUMNS + generateAssessmentParticipationTuple(1, 1 , 3),
-    "INSERT_INTO " + PARTICIPATION_COLUMNS + generateAssessmentParticipationTuple(2, 2 , 3),
-    "INSERT_INTO " + PARTICIPATION_COLUMNS + generateAssessmentParticipationTuple(3, 6 , 3),
+    "INSERT INTO " + PARTICIPATION_COLUMNS + generateAssessmentParticipationTuple(1, 1 , 3),
+    "INSERT INTO " + PARTICIPATION_COLUMNS + generateAssessmentParticipationTuple(2, 2 , 3),
+    "INSERT INTO " + PARTICIPATION_COLUMNS + generateAssessmentParticipationTuple(3, 6 , 3),
 ];
 
 Cypress.Commands.add('deleteAllButArs', () => {
@@ -89,11 +89,11 @@ Cypress.Commands.add('createDemoEntities', () => {
 
   Cypress.Commands.add('createAssessmentDemoEntities', () => {
     cy.task('queryDatabase', {
-      query: "INSERT_INTO " + INSTITUTION_COLUMNS + generateInstitutionTuple(1),
+      query: "INSERT INTO " + INSTITUTION_COLUMNS + generateInstitutionTuple(1),
       credentials: credentials,
     })
     cy.task('queryDatabase', {
-      query: "INSERT_INTO " + INSTITUTION_COLUMNS + generateOtherInstitutionTuple(2),
+      query: "INSERT INTO " + INSTITUTION_COLUMNS + generateOtherInstitutionTuple(2),
       credentials: credentials,
     })
     cy.task('queryDatabase',  {
@@ -162,15 +162,15 @@ function generateAuthVolunteerTuple(id, authType, username, userId) {
       + userId + "')"
 }
 
-function generateAssessmentActivityTuple(id, description, name, institutionId) {
+function generateAssessmentActivityTuple(id, description, name, participantsNumberLimit, institutionId) {
     return "VALUES ('"
-        + id + "', '2024-02-06 17:58:21.402146', '2024-02-06 17:58:21.402146'" + description
-        + "', '2024-02-08 10:58:21.402146'" + name + "', 'Lisbon', '2024-02-07 17:58:21.402146', 'APPROVED'" + institutionId + ")";
+        + id + "', '2024-02-06 17:58:21.402146', '2024-02-06 17:58:21.402146', '" + description
+        + "', '2024-02-08 10:58:21.402146', '" + name + "', '" + participantsNumberLimit + "', 'Lisbon', '2024-02-07 17:58:21.402146', 'APPROVED'" + institutionId + ")";
 }
 
 function generateAssessmentEnrollmentTuple(id, activityId, volunteerId) {
     return "VALUES ('"
-        + id + "', '2024-02-06 18:51:37.595713', 'sql-inserted-motivation'" + activityId + volunteerId + ")";
+        + id + "', '2024-02-06 18:51:37.595713', 'sql-inserted-motivation', '" + activityId + "', '" + volunteerId + ")";
   }
 
 function generateAssessmentParticipationTuple(id, activityId, volunteerId) {
