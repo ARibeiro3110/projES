@@ -24,6 +24,7 @@ public class ActivityDto {
     private List<EnrollmentDto> enrollments;
     private InstitutionDto institution;
     private List<ParticipationDto> participations;
+    private int participationsNumber;
     private Integer numberOfEnrollments;
 
     public ActivityDto(){
@@ -170,6 +171,14 @@ public class ActivityDto {
 
     public void setParticipations(List<ParticipationDto> participations) {
         this.participations = participations;
+    }
+
+    public int getParticipationsNumber() {
+        return participationsNumber;
+    }
+
+    public void setParticipationsNumber(int participantsNumber) {
+        this.participationsNumber = participantsNumber;
     }
 
     public Integer getNumberOfEnrollments() {

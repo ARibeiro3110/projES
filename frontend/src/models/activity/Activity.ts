@@ -50,7 +50,7 @@ export default class Activity {
           jsonObj.applicationDeadline,
         );
       this.participations = jsonObj.participations;
-      this.participationsNumber = jsonObj.participations.length;
+      this.participationsNumber = jsonObj.participationsNumber;
       this.numberOfEnrollments = jsonObj.numberOfEnrollments;
     }
   }
