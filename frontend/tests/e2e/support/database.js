@@ -24,25 +24,25 @@ const dayBeforeYesterday = new Date(now);
 dayBeforeYesterday.setDate(now.getDate() - 2);
 
 const activityQueries = [
-  "INSERT_INTO" + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(1, "Same institution is enrolled and participates", "A1", 1),
-  "INSERT_INTO" + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(2, "Same institution is enrolled and participates", "A2", 1),
-  "INSERT_INTO" + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(3, "Same institution is enrolled and does not participate", "A3", 1),
-  "INSERT_INTO" + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(4, "Same institution is not enrolled", "A4", 1),
-  "INSERT_INTO" + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(5, "Same institution before end date", "A5", 1),
-  "INSERT_INTO" + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(6, "Other institution is enrolled and participates", "A6", 2),
+  "INSERT_INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(1, "Same institution is enrolled and participates", "A1", 1),
+  "INSERT_INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(2, "Same institution is enrolled and participates", "A2", 1),
+  "INSERT_INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(3, "Same institution is enrolled and does not participate", "A3", 1),
+  "INSERT_INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(4, "Same institution is not enrolled", "A4", 1),
+  "INSERT_INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(5, "Same institution before end date", "A5", 1),
+  "INSERT_INTO " + ACTIVITY_COLUMNS + generateAssessmentActivityTuple(6, "Other institution is enrolled and participates", "A6", 2),
 ];
 
 const enrollmentQueries = [
-  "INSERT_INTO" + ENROLLMENT_COLUMNS + generateAssessmentEnrollmentTuple(1, 1, 3 ),
-  "INSERT_INTO" + ENROLLMENT_COLUMNS + generateAssessmentEnrollmentTuple(2, 2, 3 ),
-  "INSERT_INTO" + ENROLLMENT_COLUMNS + generateAssessmentEnrollmentTuple(3, 3, 3 ),
-  "INSERT_INTO" + ENROLLMENT_COLUMNS + generateAssessmentEnrollmentTuple(4, 6, 3 ),
+  "INSERT_INTO " + ENROLLMENT_COLUMNS + generateAssessmentEnrollmentTuple(1, 1, 3 ),
+  "INSERT_INTO " + ENROLLMENT_COLUMNS + generateAssessmentEnrollmentTuple(2, 2, 3 ),
+  "INSERT_INTO " + ENROLLMENT_COLUMNS + generateAssessmentEnrollmentTuple(3, 3, 3 ),
+  "INSERT_INTO " + ENROLLMENT_COLUMNS + generateAssessmentEnrollmentTuple(4, 6, 3 ),
 ];
 
 const participationQueries = [
-    "INSERT_INTO" + PARTICIPATION_COLUMNS + generateAssessmentParticipationTuple(1, 1 , 3),
-    "INSERT_INTO" + PARTICIPATION_COLUMNS + generateAssessmentParticipationTuple(2, 2 , 3),
-    "INSERT_INTO" + PARTICIPATION_COLUMNS + generateAssessmentParticipationTuple(3, 6 , 3),
+    "INSERT_INTO " + PARTICIPATION_COLUMNS + generateAssessmentParticipationTuple(1, 1 , 3),
+    "INSERT_INTO " + PARTICIPATION_COLUMNS + generateAssessmentParticipationTuple(2, 2 , 3),
+    "INSERT_INTO " + PARTICIPATION_COLUMNS + generateAssessmentParticipationTuple(3, 6 , 3),
 ];
 
 Cypress.Commands.add('deleteAllButArs', () => {
@@ -89,11 +89,11 @@ Cypress.Commands.add('createDemoEntities', () => {
 
   Cypress.Commands.add('createAssessmentDemoEntities', () => {
     cy.task('queryDatabase', {
-      query: "INSERT_INTO" + INSTITUTION_COLUMNS + generateInstitutionTuple(1),
+      query: "INSERT_INTO " + INSTITUTION_COLUMNS + generateInstitutionTuple(1),
       credentials: credentials,
     })
     cy.task('queryDatabase', {
-      query: "INSERT_INTO" + INSTITUTION_COLUMNS + generateOtherInstitutionTuple(2),
+      query: "INSERT_INTO " + INSTITUTION_COLUMNS + generateOtherInstitutionTuple(2),
       credentials: credentials,
     })
     cy.task('queryDatabase',  {
