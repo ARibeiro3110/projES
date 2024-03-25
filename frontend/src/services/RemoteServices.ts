@@ -6,6 +6,7 @@ import router from '@/router';
 import User from '@/models/user/User';
 import Institution from '@/models/institution/Institution';
 import Activity from '@/models/activity/Activity';
+import Participation from '@/models/participation/Participation';
 import Assessment from '@/models/assessment/Assessment';
 import RegisterInstitution from '@/models/institution/RegisterInstitution';
 import RegisterVolunteer from '@/models/volunteer/RegisterVolunteer';
@@ -418,6 +419,8 @@ export default class RemoteServices {
       });
   }
 
+  // Activity controller
+
   static async registerActivity(userId: number, activity: Activity) {
     return httpClient
       .post('/activities', activity)
@@ -480,6 +483,20 @@ export default class RemoteServices {
       .put(`/activities/${activityId}/report`)
       .then((response) => {
         return new Activity(response.data);
+      })
+      .catch(async (error) => {
+        throw Error(await this.errorMessage(error));
+      });
+  }
+
+  // Participation controller
+  
+  static async createParticipation(userId: number, activityId: number,
+                                   participation: Participation) {
+    return httpClient
+      .post(`activities/${activityId}/participations`, participation)
+      .then((response) => {
+        return new Participation(response.data);
       })
       .catch(async (error) => {
         throw Error(await this.errorMessage(error));

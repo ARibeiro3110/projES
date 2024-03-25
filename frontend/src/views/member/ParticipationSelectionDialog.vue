@@ -35,6 +35,7 @@
 </template>
 
 <script lang="ts">
+import RemoteServices from '@/services/RemoteServices';
 import Participation from '@/models/participation/Participation';
 import { Component, Vue, Model, Prop } from 'vue-property-decorator';
 
@@ -50,6 +51,23 @@ export default class ParticipationSelectionDialog extends Vue {
     this.participation = new Participation();
     this.participation.volunteerId = this.enrollmentVolunteerId;
     this.participation.activityId = this.activityId;
+  }
+
+  async save() {
+    if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
+      try {
+        if (this.participation && this.participation.rating) {
+          const result = await RemoteServices.createParticipation(
+            this.$store.getters.getUser.id,
+            this.participation.activityId,
+            this.participation,
+          );
+          this.$emit('save-participation', result);
+        }
+      } catch (error) {
+        await this.$store.dispatch('error', error);
+      }
+    }
   }
 
   // rating field may be empty, but if is it filled it must be with an integer from 1 to 5
