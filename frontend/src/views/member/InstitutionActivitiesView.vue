@@ -109,6 +109,12 @@ export default class InstitutionActivitiesView extends Vue {
       width: '5%',
     },
     {
+      text: 'Applications',
+      value: 'numberOfEnrollments',
+      align: 'left',
+      width: '5%',
+    },
+    {
       text: 'Themes',
       value: 'themes',
       align: 'left',
@@ -157,12 +163,6 @@ export default class InstitutionActivitiesView extends Vue {
       sortable: false,
       width: '5%',
     },
-    {
-      text: 'Applications',
-      value: 'numberOfEnrollments',
-      align: 'left',
-      width: '5%',
-    }
   ];
 
   async created() {
