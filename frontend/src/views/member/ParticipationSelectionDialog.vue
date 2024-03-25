@@ -22,7 +22,12 @@
         <v-card-actions>
           <v-spacer />
           <v-btn data-cy="cancelButton">Close</v-btn>
-          <v-btn data-cy="makeParticipantButton">Make Participant</v-btn>
+          <v-btn
+            v-if="isRatingValid"
+            data-cy="makeParticipantButton"
+          >
+            Make Participant
+          </v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
@@ -45,6 +50,11 @@ export default class ParticipationSelectionDialog extends Vue {
     this.participation = new Participation();
     this.participation.volunteerId = this.enrollmentVolunteerId;
     this.participation.activityId = this.activityId;
+  }
+
+  // rating field may be empty, but if is it filled it must be with an integer from 1 to 5
+  get isRatingValid(): boolean {
+    return this.participation.rating === null || this.participation.rating >= 1 && this.participation.rating <= 5;
   }
 }
 </script>
