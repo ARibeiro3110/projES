@@ -58,9 +58,12 @@ export default class RemoteServices {
         .get('/participations/volunteer')
         .then((response) => {
           return response.data.map((participation: any) => {
-            return new Participation()
+            return new Participation(participation)
           })
         })
+        .catch(async (error) => {
+            throw Error(await this.errorMessage(error));
+        });
   }
 
   // AuthUser Controller

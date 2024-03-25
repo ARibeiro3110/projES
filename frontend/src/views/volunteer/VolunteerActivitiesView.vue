@@ -40,7 +40,7 @@
             </template>
             <span>Report Activity</span>
           </v-tooltip>
-          <v-tooltip v-if="isActivityFinished(item) && !hasVolunteerAssessed(item) && !hasVolunteerParticipated(item)">
+          <v-tooltip v-if="isActivityFinished(item) && !hasVolunteerAssessed(item) && hasVolunteerParticipated(item)">
             <template v-slot:activator="{ on }">
               <v-icon
                   class="mr-2 action-button"

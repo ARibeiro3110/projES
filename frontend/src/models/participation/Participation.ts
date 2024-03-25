@@ -2,7 +2,7 @@ import { ISOtoString } from '@/services/ConvertDateService';
 
 export default class Participation {
   id: number | null = null;
-  activityId: number | null = null;
+  activityId!: number;
   volunteerId: number | null = null;
   rating!: number;
   acceptanceDate!: string;
