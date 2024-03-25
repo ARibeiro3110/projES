@@ -66,7 +66,7 @@ Cypress.Commands.add('createDemoEntities', () => {
 
 Cypress.Commands.add('createEnrollmentDemoEntities', () => {
   cy.task('queryDatabase', {
-    query: "INSERT_INTO " + INSTITUTION_COLUMNS + generateInstitutionTuple(1),
+    query: "INSERT INTO " + INSTITUTION_COLUMNS + generateInstitutionTuple(1),
     credentials: credentials,
   })
   cy.task('queryDatabase',  {
@@ -86,19 +86,19 @@ Cypress.Commands.add('createEnrollmentDemoEntities', () => {
     credentials: credentials,
   })
   cy.task('queryDatabase', {
-    query: "INSERT_INTO " + ACTIVITY_COLUMNS + generateActivityTuple(1, "Enrollment is open", "A1", 1),
+    query: "INSERT INTO " + ACTIVITY_COLUMNS + generateActivityTuple(1, "Enrollment is open", "A1", 1),
     credentials: credentials,
   })
   cy.task('queryDatabase', {
-    query: "INSERT_INTO " + ACTIVITY_COLUMNS + generateActivityTuple(2, "Enrollment is open and it is already enrolled", "A2", 2),
+    query: "INSERT INTO " + ACTIVITY_COLUMNS + generateActivityTuple(2, "Enrollment is open and it is already enrolled", "A2", 2),
     credentials: credentials,
   })
   cy.task('queryDatabase', {
-    query: "INSERT_INTO " + ACTIVITY_COLUMNS + generateActivityTuple(3, "Enrollment is closed", "A3", 3),
+    query: "INSERT INTO " + ACTIVITY_COLUMNS + generateActivityTuple(3, "Enrollment is closed", "A3", 3),
     credentials: credentials,
   })
   cy.task('queryDatabase', {
-    query: "INSERT_INTO " + ENROLLMENT_COLUMNS + generateEnrollmentTuple(5),
+    query: "INSERT INTO " + ENROLLMENT_COLUMNS + generateEnrollmentTuple(5),
     credentials: credentials,
   })
 });
