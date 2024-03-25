@@ -38,10 +38,10 @@ public class EnrollmentService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public List<EnrollmentDto> getVolunteerEnrollments(Integer userId) {
+    public List<EnrollmentDto> getEnrollmentsByVolunteer(Integer userId) {
         if (userId == null) throw new HEException(USER_NOT_FOUND);
-
-        return enrollmentRepository.getEnrollmentsForVolunteerId(userId).stream()
+       
+        return enrollmentRepository.getEnrollmentsByVolunteerId(userId).stream()
                 .sorted(Comparator.comparing(Enrollment::getEnrollmentDateTime))
                 .map(enrollment -> new EnrollmentDto(enrollment, false, false))
                 .toList();

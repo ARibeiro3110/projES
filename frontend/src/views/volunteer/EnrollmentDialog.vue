@@ -70,7 +70,8 @@ export default class ActivityDialog extends Vue {
   async created() {
     if (this.enrollment && this.volunteer) {
       this.newEnrollment = new Enrollment(this.enrollment);
-      this.newEnrollment.volunteer = new Volunteer(this.volunteer);
+      this.newEnrollment.volunteerId = this.volunteer.id;
+      this.newEnrollment.activityId = this.activity.id;
       this.newEnrollment.motivation = '';
     }
   }
@@ -81,10 +82,12 @@ export default class ActivityDialog extends Vue {
   }
 
   async enroll() {
-    if ((this.$refs.form as Vue & { validate: () => boolean }).validate() && this.canEnroll && this.newEnrollment?.activity?.id) {
+    if ((this.$refs.form as Vue & { validate: () => boolean }).validate() && this.canEnroll) {
       try {
-        const result = await RemoteServices.createEnrollment(this.newEnrollment.activity.id ,this.newEnrollment);
-        this.$emit('enroll', result);
+        if (this.newEnrollment && this.newEnrollment.activityId) {
+          const result = await RemoteServices.createEnrollment(this.newEnrollment.activityId, this.newEnrollment);
+          this.$emit('enroll', result);
+        }
       } catch (error) {
         await this.$store.dispatch('error', error);
       }

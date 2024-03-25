@@ -28,7 +28,7 @@ public class EnrollmentController {
     @PreAuthorize("(hasRole('ROLE_VOLUNTEER'))")
     public List<EnrollmentDto> getVolunteerEnrollments(Principal principal) {
         int userId = ((AuthUser) ((Authentication) principal).getPrincipal()).getUser().getId();
-        return enrollmentService.getVolunteerEnrollments(userId);
+        return enrollmentService.getEnrollmentsByVolunteer(userId);
     }
 
     @PostMapping("/activities/{activityId}/enrollments")

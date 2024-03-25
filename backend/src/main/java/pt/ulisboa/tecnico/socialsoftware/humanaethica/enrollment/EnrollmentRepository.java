@@ -16,5 +16,5 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Integer>
     List<Enrollment> getEnrollmentsByActivityId(Integer activityId);
 
     @Query("SELECT e FROM Enrollment e WHERE e.volunteer.id = :userId")
-    List<Enrollment> getEnrollmentsForVolunteerId(Integer userId);
+    List<Enrollment> getEnrollmentsByVolunteerId(Integer userId);
 }
