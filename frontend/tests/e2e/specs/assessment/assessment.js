@@ -18,7 +18,6 @@ describe('Assessment', () => {
     cy.demoVolunteerLogin()
     // intercept get activities
     cy.intercept('GET', '/activities').as('getActivities');
-    //cy.intercept('GET', '/themes/availableThemes').as('availableTeams')
 
     // go to list of activities
     cy.get('[data-cy="volunteerActivities"]').click();
@@ -54,15 +53,8 @@ describe('Assessment', () => {
     cy.get('[data-cy="volunteerActivitiesTable"] tbody tr')
         .eq(5).find('[data-cy="assessButton"]').should('exist');
 
-     //TO CHANGE
-      // intercept create assessment request and inject date values in the request body
-      //cy.intercept('POST', '/`institutions/${institutionId}/assessments', (req) => {
-      //    req.body = {
-      //        applicationDeadline: '2024-01-13T12:00:00+00:00',
-      //        startingDate: '2024-01-14T12:00:00+00:00',
-      //        endingDate: '2024-01-15T12:00:00+00:00'
-      //    };
-      //}).as('assess');
+    //intercept create assessment request
+    cy.intercept('POST', '/institutions/*/assessments').as('assess');
 
     //create
     cy.get('[data-cy="volunteerActivitiesTable"] tbody tr')
@@ -74,7 +66,7 @@ describe('Assessment', () => {
     // save form
     cy.get('[data-cy="saveButton"]').click()
     // check request was done
-    //cy.wait('@assess')
+    cy.wait('@assess')
     // check results
     cy.get('[data-cy="volunteerActivitiesTable"] tbody tr')
       .should('have.length', 6)
