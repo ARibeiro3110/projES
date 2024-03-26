@@ -97,16 +97,15 @@ describe('Assessment', () => {
 
     cy.wait('@getInstitutions');
 
-   //
-    cy.get('[data-cy="institutionAssessmentsTable"] tbody tr')
-        .should('have.length', 1)
-        .eq(0)
-        .children()
-        .should('have.length', 3)
+    // wait for the table to load
+    cy.get('[data-cy="institutionAssessmentsTable"] tbody tr').should('have.length', 1);
 
-    // check columns
-    cy.get('[data-cy="institutionAssessmentsTable"] tbody tr')
-        .eq(0).children().eq(0).should('contain', REVIEW)
+    // check the number of columns in the first row
+    cy.get('[data-cy="institutionAssessmentsTable"] tbody tr').eq(0).as('firstRow');
+    cy.get('@firstRow').children().should('have.length', 3);
+
+    // check the columns in the first row
+    cy.get('@firstRow').children().eq(0).should('contain', REVIEW);
     cy.logout();
   });
 });
