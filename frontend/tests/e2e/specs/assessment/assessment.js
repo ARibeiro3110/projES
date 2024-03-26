@@ -84,13 +84,29 @@ describe('Assessment', () => {
         .eq(5).find('[data-cy="assessButton"]').should('exist');
     cy.logout();
 
-    //Como membro
-    //
-    // Verificar que a tabela de avaliações tem uma única avaliação
-    //
-    // Verificar que a avaliação tem o texto inserido pelo voluntário
+    // Test as a member
+
     cy.demoMemberLogin();
 
+    // intercept get institutions
+    cy.intercept('GET', '/users/*/getInstitution').as('getInstitutions');
+
+    // go to assessments table
+    cy.get('[data-cy="institution"]').click();
+    cy.get('[data-cy="assessments"]').click();
+
+    cy.wait('@getInstitutions');
+
+   //
+    cy.get('[data-cy="institutionAssessmentsTable"] tbody tr')
+        .should('have.length', 1)
+        .eq(0)
+        .children()
+        .should('have.length', 3)
+
+    // check columns
+    cy.get('[data-cy="institutionAssessmentsTable"] tbody tr')
+        .eq(0).children().eq(0).should('contain', REVIEW)
     cy.logout();
   });
 });
