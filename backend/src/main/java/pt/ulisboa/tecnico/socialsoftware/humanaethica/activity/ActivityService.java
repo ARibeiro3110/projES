@@ -37,11 +37,7 @@ public class ActivityService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public List<ActivityDto> getActivities() {
         return activityRepository.findAll().stream()
-                .map(activity -> {
-                    ActivityDto activityDto = new ActivityDto(activity,true);
-                    activityDto.setNumberOfParticipations(activity.getParticipations().size());
-                    return activityDto;
-                })
+                .map(activity-> new ActivityDto(activity,true))
                 .sorted(Comparator.comparing(ActivityDto::getName, String.CASE_INSENSITIVE_ORDER))
                 .toList();
     }

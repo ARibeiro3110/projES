@@ -491,7 +491,7 @@ export default class RemoteServices {
 
   // Participation controller
   
-  static async createParticipation(userId: number, activityId: number,
+  static async createParticipation(activityId: number,
                                    participation: Participation) {
     return httpClient
       .post(`activities/${activityId}/participations`, participation)

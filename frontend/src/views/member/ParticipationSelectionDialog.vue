@@ -3,9 +3,10 @@
     :value="dialog"
     max-width="50%"
     max-height="50%"
+    persistent
   >
     <v-card>
-      <v-form>
+      <v-form ref="form" lazy-validation>
         <v-card-title>
           <span class="headline">Select Participant</span>
         </v-card-title>
@@ -21,9 +22,15 @@
 
         <v-card-actions>
           <v-spacer />
-          <v-btn data-cy="cancelButton">Close</v-btn>
+          <v-btn
+              data-cy="cancelButton"
+              @click="$emit('close-participation-selection-dialog')"
+          >
+            Close
+          </v-btn>
           <v-btn
             v-if="isRatingValid"
+            @click="save"
             data-cy="makeParticipantButton"
           >
             Make Participant
@@ -58,8 +65,7 @@ export default class ParticipationSelectionDialog extends Vue {
       try {
         if (this.participation && this.participation.rating) {
           const result = await RemoteServices.createParticipation(
-            this.$store.getters.getUser.id,
-            this.participation.activityId,
+            this.activityId,
             this.participation,
           );
           this.$emit('save-participation', result);
@@ -76,4 +82,3 @@ export default class ParticipationSelectionDialog extends Vue {
   }
 }
 </script>
-

@@ -32,11 +32,12 @@
         {{ item.volunteer.name }}
       </template>
       <template v-slot:[`item.action`]="{ item }">
-        <v-tooltip v-if="isVolunteerInActivity(item) && isNumberOfParticipantsValid()" bottom>
+        <v-tooltip v-if="isVolunteerInActivity(item) && canAddParticipant()" bottom>
           <template v-slot:activator="{ on }">
             <v-icon
               class="mr-2 action-button"
               @click="selectParticipant(item)"
+              data-cy="selectParticipantButton"
               v-on="on"
             >fa-solid fa-check
             </v-icon>
@@ -51,6 +52,7 @@
       :enrollmentVolunteerId="enrollmentVolunteerId"
       :activityId="activityId"
       v-on:close-participation-selection-dialog="onCloseParticipationSelectionDialog"
+      v-on:save-participation="onMakeParticipant"
       />
   </v-card>
 </template>
@@ -136,20 +138,26 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
     this.enrollmentVolunteerId = null;
   }
 
+  async onMakeParticipant() {
+    if (this.activity !== null && this.activity.id !== null)
+      this.enrollments = await RemoteServices.getActivityEnrollments(
+          this.activity.id,
+    );
+    this.enrollmentVolunteerId = null;
+    this.selectParticipantDialog = false;
+  }
+
   async getActivities() {
     await this.$store.dispatch('setActivity', null);
     this.$router.push({ name: 'institution-activities' }).catch(() => {});
   }
 
   isVolunteerInActivity(enrollment: Enrollment) {
-    if (enrollment.volunteer.id === null) {
-      return false;
-    }
-    return enrollment.volunteer.id in this.activity.participations.map((p) => p.volunteerId);
+    return enrollment.participating === false;
   }
 
-  isNumberOfParticipantsValid() {
-    return this.activity.participations.length <= this.activity.participantsNumberLimit;
+  canAddParticipant() {
+    return this.activity.participations.length < this.activity.participantsNumberLimit;
   }
 }
 </script>

@@ -59,6 +59,7 @@ public class ActivityDto {
                 setInstitution(new InstitutionDto(activity.getInstitution(), false, false));
 
         }
+        setNumberOfParticipations(activity.getParticipations().size());
 
         setNumberOfEnrollments(activity.getEnrollments().size());
     }
