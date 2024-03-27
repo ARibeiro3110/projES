@@ -39,7 +39,7 @@ public class ActivityDto {
                 .toList();
 
         this.enrollments = activity.getEnrollments().stream()
-                .map(enrollment->new EnrollmentDto(enrollment, false, false))
+                .map(enrollment->new EnrollmentDto(enrollment))
                 .toList();
 
         setState(activity.getState().name());

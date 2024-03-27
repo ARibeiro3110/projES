@@ -12,7 +12,7 @@ public class EnrollmentDto {
 
     public EnrollmentDto() {}
 
-    public EnrollmentDto(Enrollment enrollment, boolean deepCopyActivity, boolean deepCopyVolunteer) {
+    public EnrollmentDto(Enrollment enrollment) {
         setId(enrollment.getId());
         setMotivation(enrollment.getMotivation());
         setEnrollmentDateTime(DateHandler.toISOString(enrollment.getEnrollmentDateTime()));
