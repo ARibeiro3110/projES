@@ -46,7 +46,7 @@
                   class="mr-2 action-button"
                   color="blue"
                   v-on="on"
-                  data-cy="enrollButton"
+                  data-cy="enrollmentButton"
                   @click="enrollInActivity(item)"
               >fa-solid fa-sign-in</v-icon
               >
