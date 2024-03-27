@@ -12,7 +12,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController()
-@RequestMapping //(value = "/institutions/{institutionId}/assessments")
+@RequestMapping
 public class AssessmentController {
     @Autowired
     AssessmentService assessmentService;
