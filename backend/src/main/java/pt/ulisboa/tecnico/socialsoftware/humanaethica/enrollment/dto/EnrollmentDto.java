@@ -1,14 +1,14 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto;
 
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.domain.Enrollment;
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.dto.UserDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
 public class EnrollmentDto {
     private Integer id;
     private String motivation;
     private String enrollmentDateTime;
-    private UserDto volunteer;
+    private Integer volunteerId;
+    private String volunteerName;
     private boolean isParticipating;
     private Integer activityId;
     private Integer volunteerId;
@@ -21,7 +21,7 @@ public class EnrollmentDto {
         setEnrollmentDateTime(DateHandler.toISOString(enrollment.getEnrollmentDateTime()));
         setActivityId(enrollment.getActivity().getId());
         setVolunteerId(enrollment.getVolunteer().getId());
-        this.volunteer = new UserDto(enrollment.getVolunteer());
+        setVolunteerName(enrollment.getVolunteer().getName());
     }
 
 
@@ -49,12 +49,20 @@ public class EnrollmentDto {
         this.enrollmentDateTime = enrollmentDateTime;
     }
 
-    public UserDto getVolunteer() {
-        return volunteer;
+    public Integer getVolunteerId() {
+        return volunteerId;
     }
 
-    public void setVolunteer(UserDto volunteer) {
-        this.volunteer = volunteer;
+    public void setVolunteerId(Integer volunteerId) {
+        this.volunteerId = volunteerId;
+    }
+
+    public String getVolunteerName() {
+        return volunteerName;
+    }
+
+    public void setVolunteerName(String volunteerName) {
+        this.volunteerName = volunteerName;
     }
 
     public boolean isParticipating() {

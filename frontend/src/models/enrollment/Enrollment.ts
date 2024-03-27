@@ -1,10 +1,11 @@
 import { ISOtoString } from '@/services/ConvertDateService';
-import Volunteer from '@/models/volunteer/Volunteer';
 
 export default class Enrollment {
   id: number | null = null;
   motivation!: string;
   enrollmentDateTime!: string;
+  volunteerId!: number;
+  volunteerName!: String;
   participating!: boolean;
   activityId: number | null = null;
   volunteerId: number | null = null;
@@ -16,6 +17,8 @@ export default class Enrollment {
       this.activityId = jsonObj.activityId;
       this.volunteerId = jsonObj.volunteerId;
       this.enrollmentDateTime = ISOtoString(jsonObj.enrollmentDateTime);
+      this.volunteerId = jsonObj.volunteerId;
+      this.volunteerName = jsonObj.volunteerName;
       this.participating = jsonObj.participating;
       this.activityId = jsonObj.activityId;
     }

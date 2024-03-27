@@ -40,7 +40,7 @@ public class EnrollmentService {
         for (EnrollmentDto enrollment : enrollments) {
             boolean isParticipating = activity.getParticipations().stream()
                                 .anyMatch(participation -> participation.getVolunteer().getId()
-                                .equals(enrollment.getVolunteer().getId()));
+                                .equals(enrollment.getVolunteerId()));
             enrollment.setParticipating(isParticipating);
         }
 

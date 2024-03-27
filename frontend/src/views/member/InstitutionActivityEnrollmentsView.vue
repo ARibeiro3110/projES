@@ -28,9 +28,6 @@
           >
         </v-card-title>
       </template>
-      <template v-slot:[`item.volunteer`]="{ item }">
-        {{ item.volunteer.name }}
-      </template>
       <template v-slot:[`item.action`]="{ item }">
         <v-tooltip v-if="isVolunteerInActivity(item) && canAddParticipant()" bottom>
           <template v-slot:activator="{ on }">
@@ -81,7 +78,7 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
   headers: object = [
     {
       text: 'Name',
-      value: 'volunteer',
+      value: 'volunteerName',
       align: 'left',
       width: '25%',
     },
@@ -129,7 +126,7 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
   }
 
   selectParticipant(enrollment: Enrollment) {
-    this.enrollmentVolunteerId = enrollment.volunteer.id; 
+    this.enrollmentVolunteerId = enrollment.volunteerId; 
     this.selectParticipantDialog = true;
   }
 
