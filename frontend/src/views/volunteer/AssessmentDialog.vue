@@ -18,7 +18,7 @@
               label="*Review"
               data-cy="reviewInput"
               :rules="[(v) => !!v || 'Review is required',
-              (v) => isSaveValid() || 'Review must have at least 10 characters']"
+              (v) => isSaveValid || 'Review must have at least 10 characters']"
               required
           />
         </v-card-text>
@@ -31,7 +31,7 @@
           >Close</v-btn
           >
           <v-btn
-              v-if="isSaveValid()"
+              v-if="isSaveValid"
               @click="save" data-cy="saveButton"
           >Save</v-btn
           >
@@ -68,7 +68,7 @@ export default class AssessmentDialog extends Vue {
   }
 
   async save() {
-    if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
+    if ((this.$refs.form as Vue & { validate: () => boolean }).validate() && this.isSaveValid) {
       try {
         if (this.assessment && this.assessment.institutionId) {
           const result = await RemoteServices.createAssessment(
@@ -84,28 +84,10 @@ export default class AssessmentDialog extends Vue {
     }
   }
 
-  isSaveValid() {
-    return this.assessment.review.length > 9;
+  get isSaveValid() {
+    return this.assessment.review != null && this.assessment.review.trim().length > 9;
   }
 }
 </script>
 
-<style scoped>
-.add-theme-feedback-container {
-  height: 25px;
-}
-.add-theme-feedback {
-  font-size: 1.05rem;
-  color: #1b5e20;
-  text-transform: uppercase;
-}
-
-.left-text {
-  text-align: left;
-}
-
-.move-right {
-  margin-left: 20px;
-  margin-right: 20px;
-}
-</style>
+<style scoped lang="scss"></style>
