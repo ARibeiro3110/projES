@@ -79,7 +79,7 @@ describe('Enrollment', () => {
         
         cy.wait('@getEnrollments');
         
-        cy.get('[data-cy="enrollmentTable"] tbody tr')
+        cy.get('[data-cy="activityEnrollmentsTable"] tbody tr')
             // check if there is 1 application
             .should('have.length', 1)
             // check if the first application has the correct motivation
