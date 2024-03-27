@@ -15,6 +15,7 @@
           <v-text-field
             v-model="participation.rating"
             label="Rating"
+            :rules="[v => v >= 1 && v <= 5 || 'Rating must be between 1 and 5']"
             data-cy="ratingInput"
             required
           />
@@ -78,7 +79,9 @@ export default class ParticipationSelectionDialog extends Vue {
 
   // rating field may be empty, but if is it filled it must be with an integer from 1 to 5
   get isRatingValid(): boolean {
-    return this.participation.rating === null || this.participation.rating >= 1 && this.participation.rating <= 5;
+    return typeof(this.participation.rating) === 'undefined'
+           || String(this.participation.rating) === ""
+           || this.participation.rating >= 1 && this.participation.rating <= 5;
   }
 }
 </script>
