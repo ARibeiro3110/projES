@@ -104,7 +104,7 @@ Cypress.Commands.add('createAssessmentDemoEntities', () => {
     credentials: credentials,
   })
   cy.task('queryDatabase', {
-    query: "INSERT INTO " + ACTIVITY_COLUMNS + "VALUES "
+    query: "INSERT INTO " + ACTIVITY_COLUMNS
         + generateActivityTuple(1, "2024-02-06 17:58:21.402146", "2024-02-06 17:58:21.402146", "Same institution is enrolled and participates", "2024-02-08 10:58:21.402146", "A1", 1, "2024-02-07 17:58:21.402146", 1) + ","
         + generateActivityTuple(2, "2024-02-06 17:58:21.402146", "2024-02-06 17:58:21.402146", "Same institution is enrolled and participates", "2024-02-08 10:58:21.402146", "A2", 1, "2024-02-07 17:58:21.402146", 1) + ","
         + generateActivityTuple(3, "2024-02-06 17:58:21.402146", "2024-02-06 17:58:21.402146", "Same institution is enrolled and does not participate", "2024-02-08 10:58:21.402146", "A3", 2, "2024-02-07 17:58:21.402146", 1) + ","
@@ -114,15 +114,15 @@ Cypress.Commands.add('createAssessmentDemoEntities', () => {
     credentials: credentials,
   })
   cy.task('queryDatabase', {
-    query: "INSERT INTO " + ENROLLMENT_COLUMNS +"VALUES "
-        + generateEnrollmentTuple(1, 1, 3) +","
+    query: "INSERT INTO " + ENROLLMENT_COLUMNS
+        + generateEnrollmentTuple(1, 1, 3) + ","
         + generateEnrollmentTuple(2, 2, 3) + ","
         + generateEnrollmentTuple(3, 3, 3) + ","
         + generateEnrollmentTuple(4, 6, 3) + ";",
     credentials: credentials,
   })
   cy.task('queryDatabase', {
-    query: "INSERT INTO " + PARTICIPATION_COLUMNS + "VALUES "
+    query: "INSERT INTO " + PARTICIPATION_COLUMNS
         + generateParticipationTuple(1, 1, 3) + ","
         + generateParticipationTuple(2, 2, 3) + ","
         + generateParticipationTuple(3, 6, 3) + ";",
@@ -209,14 +209,14 @@ function generateActivityTuple(id, applicationDeadline, creationDate, descriptio
 }
 
 function generateEnrollmentTuple(id, activityId, volunteerId) {
-  return "('"
+  return "VALUES ('"
       + id + "', '2024-02-06 18:51:37.595713', 'sql-inserted-motivation', '"
       + activityId + "', '"
       + volunteerId + "')";
 }
 
 function generateParticipationTuple(id, activityId, volunteerId) {
-    return "('"
+    return "VALUES ('"
     + id + "', '2024-02-06 18:51:37.595713', '5', '"
     + activityId + "', '"
     + volunteerId + "')";
