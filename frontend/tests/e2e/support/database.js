@@ -179,7 +179,7 @@ function generateUserTuple(id, userType, name, role, institutionId) {
     + institutionId + ")";
 }
 
-function generateAuthUserTuple(authType, id, email, username, userId) {
+function generateAuthUserTuple(id, authType, email, username, userId) {
   return "VALUES ('"
       + authType + "', '"
       + id + "', 't', '"
