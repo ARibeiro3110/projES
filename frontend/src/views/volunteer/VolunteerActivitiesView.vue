@@ -203,6 +203,7 @@ export default class VolunteerActivitiesView extends Vue {
 
   onCloseEnrollmentDialog() {
     this.currentEnrollment = null;
+    this.currentActivity = null;
     this.enrollmentDialog = false;
   }
 
@@ -270,7 +271,8 @@ export default class VolunteerActivitiesView extends Vue {
     );
   }
   
-  async enrollInActivity(activity: Activity) {
+  enrollInActivity(activity: Activity) {
+    this.currentEnrollment = new Enrollment();
     this.currentActivity = activity;
     this.enrollmentDialog = true;
   }

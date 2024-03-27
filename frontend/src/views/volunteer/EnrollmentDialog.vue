@@ -68,7 +68,7 @@ export default class ActivityDialog extends Vue {
   cypressCondition: boolean = false;
 
   async created() {
-    if (this.enrollment && this.volunteer) {
+    if (this.enrollment && this.volunteer && this.activity) {
       this.newEnrollment = new Enrollment(this.enrollment);
       this.newEnrollment.volunteerId = this.volunteer.id;
       this.newEnrollment.activityId = this.activity.id;
