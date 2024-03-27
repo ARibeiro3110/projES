@@ -90,12 +90,14 @@ describe('Assessment', () => {
 
     // intercept get institutions
     cy.intercept('GET', '/users/*/getInstitution').as('getInstitutions');
+    cy.intercept('GET', '/institutions/*/assessments').as('getAssessments');
 
     // go to assessments table
     cy.get('[data-cy="institution"]').click();
     cy.get('[data-cy="assessments"]').click();
 
     cy.wait('@getInstitutions');
+    cy.wait('@getAssessments');
 
     // wait for the table to load
     cy.get('[data-cy="institutionAssessmentsTable"] tbody tr').should('have.length', 1);
