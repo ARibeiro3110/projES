@@ -1,4 +1,4 @@
-describe('Activity', () => {
+describe('Enrollment', () => {
     beforeEach(() => {
         cy.deleteAllButArs();
         cy.createEnrollmentDemoEntities();
@@ -42,7 +42,10 @@ describe('Activity', () => {
         cy.wait('@getActivities');
 
         // fill dialog form and enroll
-        cy.get('[data-cy=enrollmentButton]').click();
+        cy.get('[data-cy="volunteerActivitiesTable"] tbody tr')
+            .eq(0)
+            .find('[data-cy="enrollmentButton"]')
+            .click();
         cy.get('[data-cy="motivationInput"]').type(MOTIVATION);
         cy.get('[data-cy="saveEnrollment"]').click();
         cy.wait('@enroll');
