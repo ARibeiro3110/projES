@@ -33,7 +33,7 @@ public class EnrollmentService {
 
         return enrollmentRepository.getEnrollmentsByActivityId(activityId).stream()
                 .sorted(Comparator.comparing(e -> e.getEnrollmentDateTime()))
-                .map(enrollment -> new EnrollmentDto(enrollment, false, false))
+                .map(enrollment -> new EnrollmentDto(enrollment))
                 .toList();
     }
 
@@ -43,7 +43,7 @@ public class EnrollmentService {
        
         return enrollmentRepository.getEnrollmentsByVolunteerId(userId).stream()
                 .sorted(Comparator.comparing(Enrollment::getEnrollmentDateTime))
-                .map(enrollment -> new EnrollmentDto(enrollment, false, false))
+                .map(enrollment -> new EnrollmentDto(enrollment))
                 .toList();
     }
 
@@ -60,6 +60,6 @@ public class EnrollmentService {
         Enrollment enrollment = new Enrollment(activity, volunteer, enrollmentDto);
         enrollmentRepository.save(enrollment);
 
-        return new EnrollmentDto(enrollment, false, false);
+        return new EnrollmentDto(enrollment);
     }
 }

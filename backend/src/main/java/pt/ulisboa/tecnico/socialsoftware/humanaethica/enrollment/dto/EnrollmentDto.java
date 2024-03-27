@@ -8,14 +8,16 @@ public class EnrollmentDto {
     private String motivation;
     private String enrollmentDateTime;
     private Integer activityId;
+    private Integer volunteerId;
 
     public EnrollmentDto() {}
 
     public EnrollmentDto(Enrollment enrollment) {
-        this.id = enrollment.getId();
-        this.motivation = enrollment.getMotivation();
-        this.enrollmentDateTime = DateHandler.toISOString(enrollment.getEnrollmentDateTime());
-        this.activityId = enrollment.getActivity().getId();
+        setId(enrollment.getId());
+        setMotivation(enrollment.getMotivation());
+        setEnrollmentDateTime(DateHandler.toISOString(enrollment.getEnrollmentDateTime()));
+        setActivityId(enrollment.getActivity().getId());
+        setVolunteerId(enrollment.getVolunteer().getId());
     }
 
 
@@ -49,5 +51,13 @@ public class EnrollmentDto {
 
     public void setActivityId(Integer activityId) {
         this.activityId = activityId;
+    }
+
+    public Integer getVolunteerId() {
+        return volunteerId;
+    }
+
+    public void setVolunteerId(Integer volunteerId) {
+        this.volunteerId = volunteerId;
     }
 }
