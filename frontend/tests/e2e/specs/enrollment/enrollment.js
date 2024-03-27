@@ -1,4 +1,4 @@
-describe('Activity', () => {
+describe('Enrollment', () => {
     beforeEach(() => {
         cy.deleteAllButArs();
         cy.createEnrollmentDemoEntities();
@@ -11,6 +11,7 @@ describe('Activity', () => {
     it('create activities', () => {
         const MOTIVATION = 'I want to make a difference';
 
+        // e2e test as member
         cy.demoMemberLogin()
         // intercept get institutions
         cy.intercept('GET', '/users/*/getInstitution').as('getInstitutions');
@@ -32,8 +33,22 @@ describe('Activity', () => {
 
         cy.logout();
 
+        // e2e test as volunteer
         cy.demoVolunteerLogin();
-        // TODO: implement e2e test as volunteer
+        cy.intercept('POST', '/activities/*/enrollments').as('enroll');
+
+        cy.intercept('GET', '/activities').as('getActivities');
+        cy.get('[data-cy="volunteerActivities"]').click();
+        cy.wait('@getActivities');
+
+        // fill dialog form and enroll
+        cy.get('[data-cy="volunteerActivitiesTable"] tbody tr')
+            .eq(0)
+            .find('[data-cy="enrollmentButton"]')
+            .click();
+        cy.get('[data-cy="motivationInput"]').type(MOTIVATION);
+        cy.get('[data-cy="saveEnrollment"]').click();
+        cy.wait('@enroll');
         cy.logout();
 
         cy.demoAdminLogin();

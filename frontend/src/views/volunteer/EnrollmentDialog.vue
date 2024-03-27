@@ -15,7 +15,7 @@
                   :rules="[(v) => !!v || 'Motivation is required']"
                   required
                   v-model="newEnrollment.motivation"
-                  data-cy="nameInput"
+                  data-cy="motivationInput"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -35,7 +35,7 @@
             color="blue-darken-1"
             variant="text"
             @click="enroll"
-            data-cy="saveActivity"
+            data-cy="saveEnrollment"
         >
           Enroll
         </v-btn>
