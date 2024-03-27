@@ -11,7 +11,7 @@ describe('Enrollment', () => {
     it('create activities', () => {
         const MOTIVATION = 'I want to make a difference';
 
-        // e2e test as member
+        // e2e test as member before enrollment
         cy.demoMemberLogin()
         // intercept get institutions
         cy.intercept('GET', '/users/*/getInstitution').as('getInstitutions');
@@ -50,8 +50,9 @@ describe('Enrollment', () => {
         cy.get('[data-cy="saveEnrollment"]').click();
         cy.wait('@enroll');
         cy.logout();
-
-        cy.demoAdminLogin();
+        
+        // e2e test as a member after enrollment
+        cy.demoMemberLogin();
         // intercept get institutions
         cy.intercept('GET', '/users/*/getInstitution').as('getInstitutions');
         // intercept get enrollments
