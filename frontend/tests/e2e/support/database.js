@@ -183,11 +183,9 @@ function generateAuthUserTuple(authType, id, email, username, userId) {
   return "VALUES ('"
       + authType + "', '"
       + id + "', 't', '"
-      + email + "', 'NULL', 'NULL', '"
-      + username + "', 'NULL', 'NULL', '"
+      + email + "', '"
+      + username + "', '"
       + userId + "')";
-      
-    
 }
 
 function generateInstitutionTuple(id, name, nif) {
@@ -212,11 +210,15 @@ function generateActivityTuple(id, applicationDeadline, creationDate, descriptio
 
 function generateEnrollmentTuple(id, activityId, volunteerId) {
   return "('"
-      + id + "', '2024-02-06 18:51:37.595713', 'sql-inserted-motivation', '" + activityId + "', '" + volunteerId + "')";
+      + id + "', '2024-02-06 18:51:37.595713', 'sql-inserted-motivation', '"
+      + activityId + "', '"
+      + volunteerId + "')";
 }
 
 function generateParticipationTuple(id, activityId, volunteerId) {
     return "('"
-  + id + "', '2024-02-06 18:51:37.595713', '5', '" + activityId +"','" +volunteerId + "')";
+    + id + "', '2024-02-06 18:51:37.595713', '5', '"
+    + activityId + "', '"
+    + volunteerId + "')";
 }
 
