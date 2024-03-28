@@ -11,7 +11,6 @@ public class EnrollmentDto {
     private String volunteerName;
     private boolean isParticipating;
     private Integer activityId;
-    private Integer volunteerId;
 
     public EnrollmentDto() {}
 
@@ -79,13 +78,5 @@ public class EnrollmentDto {
 
     public void setActivityId(Integer activityId) {
         this.activityId = activityId;
-    }
-
-    public Integer getVolunteerId() {
-        return volunteerId;
-    }
-
-    public void setVolunteerId(Integer volunteerId) {
-        this.volunteerId = volunteerId;
     }
 }

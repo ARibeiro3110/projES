@@ -85,7 +85,7 @@ describe('Enrollment', () => {
             // check if the first application has the correct motivation
             .eq(0)
             .children()
-            .eq(0) // motivation column
+            .eq(1) // motivation column
             .should('contain', MOTIVATION);
 
         cy.logout();

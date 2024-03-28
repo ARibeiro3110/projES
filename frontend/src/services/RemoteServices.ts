@@ -14,7 +14,6 @@ import RegisterMember from '@/models/member/RegisterMember';
 import AuthPasswordDto from '@/models/user/AuthPasswordDto';
 import Theme from '@/models/theme/Theme';
 import Enrollment from '@/models/enrollment/Enrollment';
-import Participation from '@/models/participation/Participation';
 import Volunteer from '@/models/volunteer/Volunteer';
 
 const httpClient = axios.create();

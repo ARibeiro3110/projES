@@ -4,7 +4,6 @@ export default class Enrollment {
   id: number | null = null;
   motivation!: string;
   enrollmentDateTime!: string;
-  volunteerId!: number;
   volunteerName!: String;
   participating!: boolean;
   activityId: number | null = null;

@@ -25,7 +25,7 @@ describe('Participation', () => {
 
       // check first activity has 1 participation
       cy.get('[data-cy="memberActivitiesTable"] tbody tr')
-          .eq(0).children().eq(3).should('contain', 1);
+          .eq(0).children().eq(4).should('contain', 1);
 
       // check first activity has 2 enrollments
       cy.get('[data-cy="memberActivitiesTable"] tbody tr')
@@ -52,7 +52,7 @@ describe('Participation', () => {
       cy.get('[data-cy="getActivities"]').click();
       cy.wait('@getInstitutions');
       cy.get('[data-cy="memberActivitiesTable"] tbody tr')
-          .eq(0).children().eq(3).should('contain', 2);
+          .eq(0).children().eq(4).should('contain', 2);
 
       cy.logout();
   });

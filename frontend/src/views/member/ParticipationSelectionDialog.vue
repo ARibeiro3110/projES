@@ -80,7 +80,7 @@ export default class ParticipationSelectionDialog extends Vue {
   // rating field may be empty, but if is it filled it must be with an integer from 1 to 5
   get isRatingValid(): boolean {
     return typeof(this.participation.rating) === 'undefined'
-           || String(this.participation.rating) === ""
+           || String(this.participation.rating) === ''
            || this.participation.rating >= 1 && this.participation.rating <= 5;
   }
 }
